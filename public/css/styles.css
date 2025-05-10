@@ -73,6 +73,10 @@ nav ul li {
 /* *********************************
 Hero styles go here
 ********************************* */
+h1 {
+  font-size: 24px;
+}
+
 #hero {
   clear: both;
   height: 30vh;
