@@ -91,7 +91,11 @@ Hero styles go here
 }
 
 .hero-content p {
-  font-size: 1.5rem;
+  font-size: .8rem;
+}
+
+.hero-content img {
+  width: 50%;
 }
 
 .hero-img-container img {

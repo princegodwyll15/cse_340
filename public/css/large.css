@@ -9,6 +9,15 @@
         width: 100%;
     }
 
+    .hero-content p {
+        font-size: 1.5rem;
+    }
+
+    .hero-content img {
+        width: 100%;
+    }
+
+
     .collections {
         width: 70%;
         margin-top: 200px;
