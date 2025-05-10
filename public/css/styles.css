@@ -8,6 +8,7 @@
 }
 
 body {
+  font-family: "Open Sans", sans-serif;
   background-image: url(/images/site/small_check.png);
   height: 100%;
   width: 100%;
