@@ -1,4 +1,24 @@
 @media (min-width: 64rem) {
+    body {
+        font-family: "Open Sans", sans-serif;
+        background-image: url(/images/site/small_check.png);
+        height: 100%;
+        width: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    #wrapper {
+        border: 2px solid #000;
+        background-color: #fff;
+        border-radius: 10px;
+        width: 97%;
+        padding: 0 1rem 0 1rem;
+        margin: 0.5rem auto;
+    }
+
+
     nav ul li {
         font-size: 20px;
         list-style: none;
@@ -23,21 +43,64 @@
         width: 100%;
     }
 
+    .upgrade-card img {
+        height: 150px;
+        background-color: rgb(53, 132, 235);
+        padding: 1rem;
+        width: 100%;
+    }
 
     .collections {
-        width: 70%;
+        width: 90%;
         margin-top: 200px;
-        justify-content: space-between;
+        justify-content: space-around;
         display: flex;
         flex-direction: row !important;
     }
 
-    .chevrolet-upgrades h2 {
+    .delorean-upgrades h2 {
         margin-top: 0;
     }
 
-    .chevrolet-reviews li {
+    .delorean-reviews li {
         margin-bottom: 1rem;
     }
+
+    .collections h2 {
+        margin-bottom: 1.5rem;
+    }
+
+    .delorean-upgrades h2 {
+        margin-top: 0;
+    }
+
+    .upgrade-cards-container {
+        display: flex;
+        width: 60%;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .delorean-reviews {
+        width: auto;
+    }
+
+    .delorean-reviews ul {
+        margin-left: 2rem;
+    }
+
+    .upgrade-card {
+        width: 40%;
+        margin: .5rem;
+        height: auto;
+    }
+
+    .upgrade-card img {
+        height: 150px;
+        background-color: rgb(53, 132, 235);
+        padding: 1rem;
+        width: 100%;
+    }
+
 
 }

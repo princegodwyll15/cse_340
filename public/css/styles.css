@@ -9,7 +9,7 @@
 
 body {
   font-family: "Open Sans", sans-serif;
-  background-image: url(/images/site/small_check.png);
+  background-image: none;
   height: 100%;
   width: 100%;
   background-position: center;
@@ -18,7 +18,7 @@ body {
 }
 
 #wrapper {
-  border: 2px solid #000;
+  border: none;
   background-color: #fff;
   border-radius: 10px;
   width: 97%;
@@ -120,28 +120,32 @@ Car upgrades styles go here
   margin-bottom: 1.5rem;
 }
 
-.chevrolet-upgrades h2 {
+.delorean-upgrades h2 {
   margin-top: 1.5rem;
 }
 
-.upgrade-cards {
+.upgrade-cards-container {
   display: flex;
+  width: 100%;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: center;
 }
 
-.chevrolet-reviews ul {
+.delorean-reviews {
+  width: 100%;
+}
+
+.delorean-reviews ul {
   margin-left: 2rem;
 }
 
-figure {
-  width: 48%;
+.upgrade-card {
+  width: 40%;
+  margin: 1rem;
   height: 150px;
-  margin: 1rem auto;
 }
 
-figure img {
+.upgrade-card img {
   height: 150px;
   background-color: rgb(53, 132, 235);
   padding: 1rem;
