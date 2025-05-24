@@ -22,7 +22,7 @@
     nav ul li {
         font-size: 20px;
         list-style: none;
-        padding: 1rem;
+        padding: .5rem;
     }
 
     #hero {
@@ -102,5 +102,27 @@
         width: 100%;
     }
 
+    /* *********************************
+invtory display styles go here
+********************************* */
+    #inv-display {
+        width: 100%;
+        margin: .5rem auto;
+        flex-wrap: wrap;
+        flex-direction: row !important;
+    }
 
+    #inv-display li {
+        width: auto;
+        min-width: 500px;
+    }
+
+    #inv-display img {
+        width: 100%;
+        margin: .5rem auto;
+    }
+
+    #inv-display.namePrice>h2 {
+        font-size: 15px;
+    }
 }
