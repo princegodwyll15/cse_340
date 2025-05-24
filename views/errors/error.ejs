@@ -1,3 +1,9 @@
-<% if(title) {%>
-<h1><%= title %></h1>
-<% } else { res.redirect("/") }%> <%= message %>
+<div class="error-container">
+  <img src="/images/site/error.jpg" alt="Error" class="error-image" />
+  <% if (title) { %>
+  <h1><%= title %></h1>
+  <% } else { %>
+  <h1>Oops! Something went wrong.</h1>
+  <% } %>
+  <div class="error-message"><%= message %></div>
+</div>

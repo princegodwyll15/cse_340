@@ -87,7 +87,7 @@ Util.buildEachVehicleFromInventoryById = async function (data) {
     data.forEach((inv_vehicle) => {
       eachVehicleTemplate += '<li class="vehicle-detail-item">';
       eachVehicleTemplate += '<div class="vehicle-main">';
-      eachVehicleTemplate += `<h1>${inv_vehicle.inv_year} ${inv_vehicle.inv_make} ${inv_vehicle.inv_model}</h1>`;
+      eachVehicleTemplate += `<h2>${inv_vehicle.inv_year} ${inv_vehicle.inv_make} ${inv_vehicle.inv_model}</h2>`;
       eachVehicleTemplate += `<img src="${inv_vehicle.inv_thumbnail}" alt="Image of ${inv_vehicle.inv_year} ${inv_vehicle.inv_make} ${inv_vehicle.inv_model}" class="vehicle-detail-img" />`;
       eachVehicleTemplate += "</div>";
       eachVehicleTemplate += '<div class="vehicle-detail-info">';
