@@ -165,11 +165,11 @@ invtory display for each car styles go here
     }
 
     .vehicle-detail-img {
-        max-width: 500px;
+        max-width: 700px;
         width: 100%;
         height: auto;
         border-radius: 5px;
-        border-bottom: 30px solid rgb(53, 132, 235);
+        border-bottom: 10px solid #000;
         border-radius: 8px;
         object-fit: cover;
         margin-top: 0.5rem;
