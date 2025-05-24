@@ -284,8 +284,8 @@ Footer styles go here
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
   display: inline-block;
-  padding: 2rem 3rem;
-  margin-top: 3rem;
+  padding: 0rem .5rem;
+  margin-top: 1rem;
 }
 
 .error-image {
