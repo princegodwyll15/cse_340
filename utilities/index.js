@@ -85,6 +85,7 @@ Util.buildEachVehicleFromInventoryById = async function (data) {
   if (data.length > 0) {
     eachVehicleTemplate = '<ul id="inv_model">';
     data.forEach((inv_vehicle) => {
+      console.log(inv_vehicle.inv_miles);
       eachVehicleTemplate += '<li class="vehicle-detail-item">';
       eachVehicleTemplate += '<div class="vehicle-main">';
       eachVehicleTemplate += `<h2>${inv_vehicle.inv_year} ${inv_vehicle.inv_make} ${inv_vehicle.inv_model}</h2>`;
@@ -97,7 +98,7 @@ Util.buildEachVehicleFromInventoryById = async function (data) {
       ).format(inv_vehicle.inv_price)}</h4>`;
       eachVehicleTemplate += `<p><b>Description:</b> ${inv_vehicle.inv_description}</p>`;
       eachVehicleTemplate += `<p><b>Color:</b> ${inv_vehicle.inv_color}</p>`;
-      eachVehicleTemplate += `<p><b>Miles:</b> ${inv_vehicle.inv_miles}</p>`;
+      eachVehicleTemplate += `<p><b>Miles:</b> ${new Intl.NumberFormat("en-US").format(inv_vehicle.inv_miles)}</p>`;
       eachVehicleTemplate += "</div>";
       eachVehicleTemplate += "</li>";
     });

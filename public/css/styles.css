@@ -307,3 +307,7 @@ footer {
 footer p {
   font-size: 25px;
 }
+
+footer a {
+  font-size: 100%;
+}
