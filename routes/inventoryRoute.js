@@ -14,4 +14,3 @@ router.get("/cause-error", (req, res, next) => {
   next(new Error("This is an intentional server error!"));
 });
 module.exports = router;
-module.exports = router;

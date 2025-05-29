@@ -7,6 +7,36 @@
   box-sizing: border-box;
 }
 
+/*******
+flash messages styles
+***************/
+
+.flash-message {
+  padding: 1em;
+  margin: 1em 0;
+  border-radius: 5px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.flash-message.success {
+  background: #e6ffed;
+  color: #207544;
+  border: 1px solid #b2f2bb;
+}
+
+.flash-message.error {
+  background: #ffe6e6;
+  color: #a94442;
+  border: 1px solid #f5c6cb;
+}
+
+.flash-message.info {
+  background: #e6f0ff;
+  color: #31708f;
+  border: 1px solid #b8daff;
+}
+
 body {
   font-family: "Open Sans", sans-serif;
   background-image: none;
@@ -273,6 +303,177 @@ invtory display for each car styles go here
 
 .vehicle-detail-info {
   flex: 1;
+}
+
+/* *********************************
+login Forms styles go here
+********************************* */
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+}
+
+#login-form {
+  background: #fff;
+  padding: 2rem 2.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 350px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+#login-form label {
+  font-weight: 600;
+  color: #333;
+}
+
+#login-form input {
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border 0.2s;
+}
+
+#login-form input:focus {
+  border: 1.5px solid #0077cc;
+  outline: none;
+}
+
+#login-form button {
+  background: #0077cc;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 0.8rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#login-form button:hover {
+  background: #005fa3;
+}
+
+#login-form p {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+/* *********************************
+register form styles go here
+********************************* */
+
+
+/* Center the form on the page */
+.register-form,
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+}
+
+/* Style the form container */
+#register-form,
+#login-form {
+  background: #fff;
+  padding: 2rem 2.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 350px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+/* Style each form group */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+/* Style labels */
+#register-form label,
+#login-form label {
+  font-weight: 600;
+  color: #333;
+}
+
+/* Style inputs */
+#register-form input,
+#login-form input {
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border 0.2s;
+}
+
+#register-form input:focus,
+#login-form input:focus {
+  border: 1.5px solid #0077cc;
+  outline: none;
+}
+
+/* Password field with toggle */
+.password-field {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding-right: 0.5rem;
+  background: #fafafa;
+}
+
+.password-toggle {
+  margin-left: 0.5rem;
+  color: #888;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+/* Style the button */
+#register-form button,
+#login-form button {
+  background: #0077cc;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 0.8rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#register-form button:hover,
+#login-form button:hover {
+  background: #005fa3;
+}
+
+/* Link below the form */
+#register-form p,
+#login-form p {
+  text-align: center;
+  margin-top: 1rem;
 }
 
 /* *********************************

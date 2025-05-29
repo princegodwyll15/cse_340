@@ -1,0 +1,78 @@
+<h1><%- title %></h1>
+<% if (messages && messages.length > 0) { %>
+<div class="flash-message"><%= messages[0] %></div>
+<% } %>
+<section class="register-form">
+  <form action="/account/register" method="post" id="register-form">
+    <div class="form-group">
+      <label for="account_firstname">First name</label>
+      <input
+        type="text"
+        name="account_firstname"
+        id="account_firstname"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="account_lastname">Last name</label>
+      <input
+        type="text"
+        name="account_lastname"
+        id="account_lastname"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="account_email">Email</label>
+      <input
+        type="account_email"
+        name="account_email"
+        id="account_email"
+        title="Please enter a valid email address"
+        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <div>
+        <input
+          type="account_password"
+          placeholder="Enter your password"
+          name="account_password"
+          id="account_password"
+          required
+          style="flex: 1"
+        />
+        <span
+          id="password-toggle"
+          class="password-toggle"
+          style="margin-left: 0.5rem"
+        >
+          <i class="fa fa-eye" style="cursor: pointer"></i>
+        </span>
+      </div>
+    </div>
+    <button type="submit">Register</button>
+    <p>Already have an account? <a href="/account/login">Login here</a></p>
+  </form>
+</section>
+
+<script>
+  const passwordToggle = document.getElementById("password-toggle");
+  const passwordInput = document.getElementById("password");
+  const icon = passwordToggle.querySelector("i");
+
+  passwordToggle.addEventListener("click", function () {
+    const passwordType = passwordInput.getAttribute("type");
+    if (passwordType === "password") {
+      passwordInput.setAttribute("type", "text");
+      icon.classList.remove("fa-eye");
+      icon.classList.add("fa-eye-slash");
+    } else {
+      passwordInput.setAttribute("type", "password");
+      icon.classList.remove("fa-eye-slash");
+      icon.classList.add("fa-eye");
+    }
+  });
+</script>
