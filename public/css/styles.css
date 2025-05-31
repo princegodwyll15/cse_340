@@ -14,6 +14,7 @@ flash messages styles
 .flash-message {
   padding: 1em;
   margin: 1em 0;
+  font: 100%/1.5 "Open Sans", sans-serif;
   border-radius: 5px;
   font-weight: bold;
   text-align: center;
@@ -317,7 +318,7 @@ login Forms styles go here
   min-height: 60vh;
 }
 
-#login-form {
+#loginForm {
   background: #fff;
   padding: 2rem 2.5rem;
   border-radius: 10px;
@@ -335,12 +336,12 @@ login Forms styles go here
   gap: 0.3rem;
 }
 
-#login-form label {
+#loginForm label {
   font-weight: 600;
   color: #333;
 }
 
-#login-form input {
+#loginForm input {
   padding: 0.6rem;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -348,12 +349,12 @@ login Forms styles go here
   transition: border 0.2s;
 }
 
-#login-form input:focus {
+#loginForm input:focus {
   border: 1.5px solid #0077cc;
   outline: none;
 }
 
-#login-form button {
+#loginForm button {
   background: #0077cc;
   color: #fff;
   border: none;
@@ -365,13 +366,26 @@ login Forms styles go here
   transition: background 0.2s;
 }
 
-#login-form button:hover {
+#loginForm button:hover {
   background: #005fa3;
 }
 
-#login-form p {
+#loginForm p {
   text-align: center;
   margin-top: 1rem;
+}
+
+input:required:invalid,
+input:focus:invalid {
+  background-image: url(/images/invalid.png);
+  background-position: right top;
+  background-repeat: no-repeat;
+}
+
+input:required:valid {
+  background-image: url(/images/valid.png);
+  background-position: right top;
+  background-repeat: no-repeat;
 }
 
 /* *********************************
@@ -380,8 +394,7 @@ register form styles go here
 
 
 /* Center the form on the page */
-.register-form,
-.login-form {
+.register-form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -390,8 +403,7 @@ register form styles go here
 }
 
 /* Style the form container */
-#register-form,
-#login-form {
+#register-form {
   background: #fff;
   padding: 2rem 2.5rem;
   border-radius: 10px;
@@ -411,15 +423,13 @@ register form styles go here
 }
 
 /* Style labels */
-#register-form label,
-#login-form label {
+#register-form label {
   font-weight: 600;
   color: #333;
 }
 
 /* Style inputs */
-#register-form input,
-#login-form input {
+#register-form input {
   padding: 0.6rem;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -427,8 +437,7 @@ register form styles go here
   transition: border 0.2s;
 }
 
-#register-form input:focus,
-#login-form input:focus {
+#register-form input:focus {
   border: 1.5px solid #0077cc;
   outline: none;
 }
@@ -451,8 +460,7 @@ register form styles go here
 }
 
 /* Style the button */
-#register-form button,
-#login-form button {
+#register-form button {
   background: #0077cc;
   color: #fff;
   border: none;
@@ -464,16 +472,261 @@ register form styles go here
   transition: background 0.2s;
 }
 
-#register-form button:hover,
-#login-form button:hover {
+#register-form button:hover {
   background: #005fa3;
 }
 
 /* Link below the form */
-#register-form p,
-#login-form p {
+#register-form p {
   text-align: center;
   margin-top: 1rem;
+}
+
+
+/* *********************************
+inventory management links styles go here
+********************************* */
+.management-links {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+/* Button style for management actions */
+.management-links .btn {
+  background: #0077cc;
+  color: #fff;
+  padding: 0.9rem 1.8rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+  cursor: pointer;
+  display: inline-block;
+}
+
+.management-links .btn:hover,
+.management-links .btn:focus {
+  background: #005fa3;
+  color: #fff;
+  text-decoration: none;
+}
+
+/* *********************************
+Add classification form styles go here
+********************************* */
+/* Add Classification Form Container */
+.add-classification-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 60vh;
+  justify-content: center;
+  background: #f7fafd;
+  padding: 2rem 0;
+}
+
+.add-classification-form form {
+  background: #fff;
+  padding: 2.5rem 2.5rem 2rem 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.10);
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  border: 1px solid #e3e9f3;
+}
+
+.add-classification-form h1 {
+  text-align: center;
+  margin-bottom: 0.5rem;
+  color: #0077cc;
+  letter-spacing: 1px;
+}
+
+.add-classification-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.add-classification-form p {
+  margin: 0;
+  font-size: 1em;
+  padding: 0.5em 0.7em;
+  border-left: 4px solid #0077cc;
+  background: #eaf4fb;
+  color: #005fa3;
+  border-radius: 3px;
+}
+
+.add-classification-form p:nth-child(2) {
+  border-left-color: #28a745;
+  background: #eafbf0;
+  color: #218838;
+}
+
+.add-classification-form p:nth-child(3) {
+  border-left-color: #ffc107;
+  background: #fffbe6;
+  color: #856404;
+}
+
+.add-classification-form label {
+  font-weight: 600;
+  margin-top: 3rem;
+  color: #333;
+}
+
+.add-classification-form input[type="text"] {
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border 0.2s;
+}
+
+.add-classification-form input[type="text"]:focus {
+  border: 1.5px solid #0077cc;
+  outline: none;
+}
+
+.add-classification-form button {
+  background: #0077cc;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 0.8rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 1rem;
+}
+
+.add-classification-form button:hover {
+  background: #005fa3;
+}
+
+.add-classification-form small {
+  color: #888;
+  font-size: 0.95em;
+  margin-top: 0.2rem;
+}
+
+/* *********************************
+Add inventory form styles go here
+********************************* */
+.add-inventory {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 60vh;
+  justify-content: center;
+}
+
+.add-inventory form {
+  background: #fff;
+  padding: 2rem 2.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 900px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem 2rem;
+}
+
+.add-inventory h1 {
+  grid-column: 1 / -1;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.add-inventory .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.add-inventory button {
+  grid-column: 1 / -1;
+  width: 50%;
+  margin: 0 auto;
+}
+
+.add-inventory input[type="text"],
+.add-inventory input[type="number"],
+.add-inventory input[type="file"],
+.add-inventory textarea,
+.add-inventory select {
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  resize: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border 0.2s;
+}
+
+.add-inventory input:focus,
+.add-inventory textarea:focus,
+.add-inventory select:focus {
+  border: 1.5px solid #0077cc;
+  outline: none;
+}
+
+/* Make textarea and select full width in their cell */
+.add-inventory textarea,
+.add-inventory select {
+  width: 100%;
+}
+
+.add-inventory button[type="submit"] {
+  grid-column: 1 / -1;
+  width: 100%;
+  background: #0077cc;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 0.8rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin: 0 auto;
+}
+
+.add-inventory button[type="submit"]:hover {
+  background: #005fa3;
+}
+
+.add-inventory .select {
+  grid-column: 1 / -1;
+  width: 100%;
+}
+
+@media (max-width: 700px) {
+  .add-inventory button[type="submit"] {
+    width: 100%;
+  }
+}
+
+/* Responsive: stack to one column on small screens */
+@media (max-width: 700px) {
+  .add-inventory form {
+    grid-template-columns: 1fr;
+    max-width: 98vw;
+  }
+
+  .add-inventory button {
+    width: 100%;
+  }
 }
 
 /* *********************************

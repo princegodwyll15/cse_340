@@ -1,0 +1,147 @@
+<h1><%- title %></h1>
+
+<% if (errors) { %>
+<ul class="notice">
+  <% errors.array().forEach(error => { %>
+  <li><%= error.msg %></li>
+  <% }) %>
+</ul>
+<% } %>
+
+<section class="add-inventory">
+  <form
+    action="/inv/add-inventory"
+    method="post"
+    id="classification-form"
+    enctype="multipart/form-data"
+    novalidate
+  >
+    <div class="form-group">
+      <label for="inv-make">Inventory Make</label>
+      <input
+        type="text"
+        name="inv-make"
+        id="inv-make"
+        required
+        pattern="^[a-zA-Z0-9\s\-]{2,}$"
+        title="At least 2 characters. Letters, numbers, spaces, and hyphens only."
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="inv-model">Inventory Model</label>
+      <input
+        type="text"
+        name="inv-model"
+        id="inv-model"
+        required
+        pattern="^[a-zA-Z0-9\s\-]{1,}$"
+        title="Letters, numbers, spaces, and hyphens only."
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="inv-year">Inventory Year</label>
+      <input
+        type="number"
+        name="inv-year"
+        id="inv-year"
+        required
+        min="1900"
+        max="2099"
+        title="Enter a valid year (1900-2099)"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="inv-description">Inventory Description</label>
+      <textarea
+        name="inv-description"
+        id="inv-description"
+        required
+        minlength="5"
+        maxlength="1000"
+        title="Description must be between 5 and 1000 characters"
+      ></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="inv-image">Inventory Image</label>
+      <input type="file" name="inv-image" id="inv-image" accept="image/*" />
+      <input
+        type="hidden"
+        name="inv-image-default"
+        value="/images/vehicles/no-image.png"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="inv-thumbnail">Inventory Thumbnail</label>
+      <input
+        type="file"
+        name="inv-thumbnail"
+        id="inv-thumbnail"
+        accept="image/*"
+      />
+      <input
+        type="hidden"
+        name="inv-thumbnail-default"
+        value="/images/vehicles/no-image-tn.png"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="inv-price">Inventory Price</label>
+      <input
+        type="number"
+        name="inv-price"
+        id="inv-price"
+        required
+        min="0"
+        step="0.01"
+        title="Enter a valid price"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="inv-mileage">Inventory Mileage</label>
+      <input
+        type="number"
+        name="inv-mileage"
+        id="inv-mileage"
+        required
+        min="0"
+        step="1"
+        title="Enter a valid mileage"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="inv-color">Inventory Color</label>
+      <input
+        type="text"
+        name="inv-color"
+        id="inv-color"
+        required
+        pattern="^[a-zA-Z\s\-]{2,}$"
+        title="At least 2 letters. Letters, spaces, and hyphens only."
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="inv-stock">Inventory Stock</label>
+      <input
+        type="number"
+        name="inv-stock"
+        id="inv-stock"
+        required
+        min="0"
+        step="1"
+        title="Enter a valid stock number"
+      />
+    </div>
+    <div class="form-group select"> <%- classificationList %> </div>
+
+    <button type="submit">Add New Inventory</button>
+  </form>
+</section>

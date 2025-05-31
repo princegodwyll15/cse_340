@@ -42,8 +42,71 @@ async function getInventoryDetailsByInvId(inv_id) {
     console.error("getInventoryDetialsByInvId " + error);
   }
 }
+
+async function addNewClassification(classification_name) {
+  try {
+    const result = await pool.query(
+      `INSERT INTO public.classification (classification_name) 
+       VALUES ($1) RETURNING classification_id`,
+      [classification_name]
+    );
+    return result.rows[0];
+  } catch (error) {
+    console.error("addNewClassification error " + error);
+  }
+  return null;
+}
+
+
+async function addNewInventory(inv_make,
+  inv_model,
+  inv_year,
+  inv_description,
+  inv_image,
+  inv_thumbnail,
+  inv_price,
+  inv_miles,
+  inv_color,
+  classification_id) {
+  try {
+    const result = await pool.query(
+      `INSERT INTO public.inventory (inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id) 
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING inv_id`,
+      [inv_make,
+        inv_model,
+        inv_year,
+        inv_description,
+        inv_image,
+        inv_thumbnail,
+        inv_price,
+        inv_miles,
+        inv_color,
+        classification_id]
+    );
+    return result.rows[0];
+  }
+
+  catch (error) {
+    console.error("addNewInventory error " + error);
+  }
+
+}
+
+async function checkExistingClassification(classification_name) {
+  try {
+    const sql = "SELECT * FROM classification WHERE classification_name = $1"
+    const classification = await pool.query(sql, [classification_name])
+    return classification.rowCount;
+  } catch (error) {
+    return error.message
+  }
+}
+
 module.exports = {
   getClassifications,
   getInventoryByClassificationId,
   getInventoryDetailsByInvId,
+  addNewClassification,
+  addNewInventory,
+  checkExistingClassification
 };

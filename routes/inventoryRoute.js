@@ -2,11 +2,22 @@
 const express = require("express");
 const router = new express.Router();
 const invController = require("../controllers/invController");
+const invValidate = require("../utilities/inv-validation");
 
 // Route to build inventory by classification view
 router.get("/type/:classificationId", invController.buildByClassificationId);
 
 router.get("/detail/:invId", invController.buildByInventoryId);
+router.post(
+  "/add-classification",
+  invValidate.addClassificationRules(),
+  invValidate.checkAddClassificationData,
+  invController.getNewClassification
+);
+
+router.get("/add-classification", invController.buildInvAddNewClassificationPage);
+router.get("/add-inventory", invController.buildInvAddNewInventoryPage);
+router.get("/", invController.buildVehilcleManagementPage);
 
 // ...existing code...
 router.get("/cause-error", (req, res, next) => {
