@@ -682,8 +682,7 @@ Add inventory form styles go here
 }
 
 /* Make textarea and select full width in their cell */
-.add-inventory textarea,
-.add-inventory select {
+.add-inventory textarea {
   width: 100%;
 }
 
@@ -704,11 +703,6 @@ Add inventory form styles go here
 
 .add-inventory button[type="submit"]:hover {
   background: #005fa3;
-}
-
-.add-inventory .select {
-  grid-column: 1 / -1;
-  width: 100%;
 }
 
 @media (max-width: 700px) {

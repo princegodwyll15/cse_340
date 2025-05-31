@@ -1,26 +1,19 @@
 <h1><%- title %></h1>
-
-<% if (errors) { %>
+<% if (errors && errors.length > 0) { %>
 <ul class="notice">
-  <% errors.array().forEach(error => { %>
+  <% errors.forEach(function(error) { %>
   <li><%= error.msg %></li>
   <% }) %>
 </ul>
 <% } %>
 
 <section class="add-inventory">
-  <form
-    action="/inv/add-inventory"
-    method="post"
-    id="classification-form"
-    enctype="multipart/form-data"
-    novalidate
-  >
+  <form action="/inv/add-inventory" method="post" id="classification-form">
     <div class="form-group">
       <label for="inv-make">Inventory Make</label>
       <input
         type="text"
-        name="inv-make"
+        name="inv_make"
         id="inv-make"
         required
         pattern="^[a-zA-Z0-9\s\-]{2,}$"
@@ -32,7 +25,7 @@
       <label for="inv-model">Inventory Model</label>
       <input
         type="text"
-        name="inv-model"
+        name="inv_model"
         id="inv-model"
         required
         pattern="^[a-zA-Z0-9\s\-]{1,}$"
@@ -44,7 +37,7 @@
       <label for="inv-year">Inventory Year</label>
       <input
         type="number"
-        name="inv-year"
+        name="inv_year"
         id="inv-year"
         required
         min="1900"
@@ -56,7 +49,7 @@
     <div class="form-group">
       <label for="inv-description">Inventory Description</label>
       <textarea
-        name="inv-description"
+        name="inv_description"
         id="inv-description"
         required
         minlength="5"
@@ -67,10 +60,9 @@
 
     <div class="form-group">
       <label for="inv-image">Inventory Image</label>
-      <input type="file" name="inv-image" id="inv-image" accept="image/*" />
       <input
-        type="hidden"
-        name="inv-image-default"
+        type="text"
+        name="inv_image"
         value="/images/vehicles/no-image.png"
       />
     </div>
@@ -78,14 +70,8 @@
     <div class="form-group">
       <label for="inv-thumbnail">Inventory Thumbnail</label>
       <input
-        type="file"
-        name="inv-thumbnail"
-        id="inv-thumbnail"
-        accept="image/*"
-      />
-      <input
-        type="hidden"
-        name="inv-thumbnail-default"
+        type="text"
+        name="inv_thumbnail"
         value="/images/vehicles/no-image-tn.png"
       />
     </div>
@@ -94,7 +80,7 @@
       <label for="inv-price">Inventory Price</label>
       <input
         type="number"
-        name="inv-price"
+        name="inv_price"
         id="inv-price"
         required
         min="0"
@@ -107,7 +93,7 @@
       <label for="inv-mileage">Inventory Mileage</label>
       <input
         type="number"
-        name="inv-mileage"
+        name="inv_miles"
         id="inv-mileage"
         required
         min="0"
@@ -120,7 +106,7 @@
       <label for="inv-color">Inventory Color</label>
       <input
         type="text"
-        name="inv-color"
+        name="inv_color"
         id="inv-color"
         required
         pattern="^[a-zA-Z\s\-]{2,}$"
@@ -129,18 +115,9 @@
     </div>
 
     <div class="form-group">
-      <label for="inv-stock">Inventory Stock</label>
-      <input
-        type="number"
-        name="inv-stock"
-        id="inv-stock"
-        required
-        min="0"
-        step="1"
-        title="Enter a valid stock number"
-      />
+      <label for="classification">Choose Classification</label>
+      <%- classificationList %>
     </div>
-    <div class="form-group select"> <%- classificationList %> </div>
 
     <button type="submit">Add New Inventory</button>
   </form>

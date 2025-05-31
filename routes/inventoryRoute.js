@@ -17,6 +17,11 @@ router.post(
 
 router.get("/add-classification", invController.buildInvAddNewClassificationPage);
 router.get("/add-inventory", invController.buildInvAddNewInventoryPage);
+router.post(
+  "/add-inventory",
+  invController.getNewInventoryToInvModel
+);
+
 router.get("/", invController.buildVehilcleManagementPage);
 
 // ...existing code...
