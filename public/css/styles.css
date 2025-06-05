@@ -704,6 +704,56 @@ Add inventory form styles go here
   background: #005fa3;
 }
 
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #f0f0f0;
+}
+
+td {
+  background-color: #fff;
+}
+
+th:first-child,
+td:first-child {
+  padding-left: 20px;
+}
+
+th:last-child,
+td:last-child {
+  padding-right: 20px;
+}
+
+table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+#classificationList {
+  width: 200px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+}
+
+#classificationList option:hover {
+  background-color: #f0f0f0;
+}
+
+/* Responsive: stack to one column on small screens */
+
 @media (max-width: 700px) {
   .add-inventory button[type="submit"] {
     width: 100%;
