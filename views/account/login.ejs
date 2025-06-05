@@ -8,18 +8,22 @@
 <% } %>
 <section class="login-form">
   <form id="loginForm" class="loginForm" action="/account/login" method="post">
-    <% if (messages && messages.length > 0) { %>
-    <div class="flash-message <%- messageType %>"><%= messages[0] %></div>
+    <% if (locals.messages) { %>
+    <ul>
+      <% messages.forEach(message => { %>
+      <li><%= message %></li>
+      <% }) %>
+    </ul>
     <% } %>
     <div class="form-group">
       <label for="email">Email</label>
-      <input type="email" name="email" id="email" required />
+      <input type="email" name="account_email" id="email" required />
     </div>
     <div class="form-group">
       <label for="password">Password</label>
       <input
         type="password"
-        name="password"
+        name="account_password"
         id="password"
         pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
         title="Password must be at least 12 characters long, contain at least one uppercase letter, one lowercase letter, one digit, and one special character."

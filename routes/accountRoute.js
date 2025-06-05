@@ -6,6 +6,7 @@ const regValidate = require('../utilities/account-validation')
 
 router.get("/login", accountController.buildLogin);
 router.get("/register", accountController.buildRegister);
+
 // Process the registration data
 router.post(
     "/register",
@@ -14,13 +15,16 @@ router.post(
     utilities.handleErrors(accountController.registerAccount)
 )
 
-// Process the login attempt
+// Process the login request
 router.post(
     "/login",
-    (req, res) => {
-        res.status(200).send('login process')
-    }
-)
+    regValidate.loginRules(),
+    regValidate.checkLoginData,
+    utilities.handleErrors(accountController.accountLogin)
+  )
+
+  router.get("/", utilities.checkLogin, accountController.buildIndex, utilities.handleErrors(accountController.buildIndex));
+
 // Route to cause an error for testing purposes
 router.get("/cause-error", (req, res, next) => {
     next(new Error("This is an intentional server error!"));

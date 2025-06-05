@@ -13,6 +13,12 @@ async function getClassifications() {
  *  Get all inventory items and classification_name by classification_id
  * ************************** */
 async function getInventoryByClassificationId(classification_id) {
+  // Validate classification_id is a number
+  if (isNaN(classification_id)) {
+    console.error("Invalid classification_id: " + classification_id);
+    return [];
+  }
+
   try {
     const data = await pool.query(
       `SELECT * FROM public.inventory AS i 
@@ -21,9 +27,10 @@ async function getInventoryByClassificationId(classification_id) {
       WHERE i.classification_id = $1`,
       [classification_id]
     );
-    return data.rows;
+    return data?.rows || [];
   } catch (error) {
     console.error("getclassificationsbyid error " + error);
+    return [];
   }
 }
 
@@ -96,10 +103,25 @@ async function addNewInventory({
   }
 }
 
+async function getClassificationByName(classification_name) {
+  try {
+    const result = await pool.query(
+      `SELECT * FROM public.classification 
+       WHERE classification_name = $1`,
+      [classification_name]
+    );
+    return result.rows[0] || null;
+  } catch (error) {
+    console.error("getClassificationByName error: " + error);
+    throw error;
+  }
+}
+
 module.exports = {
   getClassifications,
   getInventoryByClassificationId,
   getInventoryDetailsByInvId,
   addNewClassification,
   addNewInventory,
+  getClassificationByName
 };

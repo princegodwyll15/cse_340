@@ -17,6 +17,7 @@ const session = require("express-session");
 const pool = require("./database/");
 const accountRoute = require("./routes/accountRoute");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 
 /* ***********************
  * View Engine and Templates
@@ -32,6 +33,10 @@ app.set("layout", "./layouts/layout");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+/* ***********************
+ * cookieParser Middleware
+ *************************/
+app.use(cookieParser());
 
 /* ***********************
  * Middleware
@@ -46,6 +51,11 @@ app.use(session({
   saveUninitialized: true,
   name: 'sessionId',
 }))
+
+/* ***********************
+ * checkJWTToken Middleware
+ * ************************/
+app.use(utilities.checkJWTToken)
 
 
 // Express Messages Middleware

@@ -40,13 +40,6 @@ validate.registrationRules = () => {
         body("account_password")
             .trim()
             .notEmpty()
-            .isStrongPassword({
-                minLength: 12,
-                minLowercase: 1,
-                minUppercase: 1,
-                minNumbers: 1,
-                minSymbols: 1,
-            })
             .withMessage("Password does not meet requirements."),
     ]
 }
@@ -66,6 +59,39 @@ validate.checkRegData = async (req, res, next) => {
             nav,
             account_firstname,
             account_lastname,
+            account_email,
+        })
+        return
+    }
+    next()
+}
+
+validate.loginRules = () => {
+    return [
+        // valid email is required
+        body("account_email")
+            .trim()
+            .isEmail()
+            .normalizeEmail() // refer to validator.js docs
+            .withMessage("A valid email is required."),
+        // password is required
+        body("account_password")
+            .trim()
+            .notEmpty()
+            .withMessage("Password is required."),
+    ]
+}
+
+validate.checkLoginData = async (req, res, next) => {
+    const { account_email, account_password } = req.body
+    let errors = []
+    errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        let nav = await utilities.getNav()
+        res.render("account/login", {
+            errors,
+            title: "Login",
+            nav,
             account_email,
         })
         return
