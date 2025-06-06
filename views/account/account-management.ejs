@@ -1,15 +1,4 @@
-<% if (locals.messages) { %>
-<ul>
-  <% messages.forEach(message => { %>
-  <li><%= message %></li>
-  <% }) %>
-</ul>
-<% } %>
-<% if (errors) { %>
-    <ul class="notice">
-      <% errors.array().forEach(error => { %>
-      <li><%= error.msg %></li>
-      <% }) %>
-    </ul>
-    <% } %>
-<h1>Your are logged in</h1>    
+<% if (messages && messages.length > 0) { %>
+  <div class="flash-message <%- messageType%>"> <%= messages[0] %> </div>
+  <% } %>
+  <h1>Your are logged in</h1>    

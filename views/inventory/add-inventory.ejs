@@ -1,14 +1,9 @@
 <h1><%- title %></h1>
-<% if (errors && errors.length > 0) { %>
-<ul class="notice">
-  <% errors.forEach(function(error) { %>
-  <li><%= error.msg %></li>
-  <% }) %>
-</ul>
-<% } %>
-
 <section class="add-inventory">
   <form action="/inv/add-inventory" method="post" id="classification-form">
+    <% if (messages && messages.length > 0) { %>
+      <div class="flash-message <%- messageType%>"> <%= messages[0] %> </div>
+      <% } %>    
     <div class="form-group">
       <label for="inv-make">Inventory Make</label>
       <input

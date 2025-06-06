@@ -1,20 +1,9 @@
 <h1><%- title %></h1>
-<% if (errors) { %>
-<ul class="notice">
-  <% errors.array().forEach(error => { %>
-  <li><%= error.msg %></li>
-  <% }) %>
-</ul>
-<% } %>
 <section class="login-form">
   <form id="loginForm" class="loginForm" action="/account/login" method="post">
-    <% if (locals.messages) { %>
-    <ul>
-      <% messages.forEach(message => { %>
-      <li><%= message %></li>
-      <% }) %>
-    </ul>
-    <% } %>
+    <% if (messages && messages.length > 0) { %>
+      <div class="flash-message <%- messageType%>"> <%= messages[0] %> </div>
+      <% } %>      
     <div class="form-group">
       <label for="email">Email</label>
       <input type="email" name="account_email" id="email" required />

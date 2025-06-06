@@ -1,12 +1,8 @@
 <h1><%- title %></h1>
-<% if (errors) { %>
-<ul class="notice">
-  <% errors.array().forEach(error => { %>
-  <li><%= error.msg %></li>
-  <% }) %>
-</ul>
-<% } %>
-<section class="register-form">
+<% if (messages && messages.length > 0) { %>
+  <div class="flash-message <%- messageType%>"> <%= messages[0] %> </div>
+  <% } %> 
+  <section class="register-form">
   <form action="/account/register" method="post" id="register-form">
     <div class="form-group">
       <label for="account_firstname">First name</label>

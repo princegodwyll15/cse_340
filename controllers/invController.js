@@ -6,9 +6,9 @@ const invCont = {};
 invCont.buildInvAddNewClassificationPage = async function (req, res,) {
   res.render("inventory/add-classification", {
     title: "Add Classification",
-    messages: req.flash("notice"),
+    messages: null,
+    messageType: null,
     nav: await utilities.getNav(),
-    errors: null, 
   });
 }
 
@@ -18,23 +18,21 @@ invCont.getNewClassification = async function (req, res) {
     const result = await invModel.addNewClassification(classification_name);
     if (result) {
       req.flash("notice", "Classification added successfully.");
-      const messageType = "success";
       return res.status(201).render("inventory/management", {
         title: "Vehicle Management",
         nav: await utilities.getNav(),
         classificationList: null, 
         messages: req.flash("notice"),
-        messageType,
+        messageType: "success",
         errors: null,
       });
     } else {
       req.flash("notice", "Failed to add classification. Please try again.");
-      const messageType = "danger";
       return res.render("inventory/add-classification", {
         title: "Add Classification",
         nav: await utilities.getNav(),
         messages: req.flash("notice"),
-        messageType,
+        messageType: "danger",
         errors: null,
       });
     }
@@ -45,7 +43,7 @@ invCont.getNewClassification = async function (req, res) {
       title: "Add Classification",
       nav: await utilities.getNav(),
       messages: req.flash("notice"),
-      errors: [{ msg: "An unexpected error occurred. Please try again." }],
+      messageType: "danger",
     });
   }
 };
@@ -75,16 +73,16 @@ invCont.getNewInventoryToInvModel = async function (req, res) {
 
     if (result) {
       req.flash("notice", "Inventory item added successfully.");
-      res.redirect("/inv/type/" + classification_id);
+      res.redirect("/inv");
     } else {
       req.flash("notice", "Failed to add inventory item. Please try again.");
       const classificationList = await utilities.buildClassificationList();
       res.render("inventory/add-inventory", {
         title: "Add New Inventory",
         messages: req.flash("notice"),
+        messageType: "danger",
         classificationList: classificationList,
         nav: await utilities.getNav(),
-        errors: null
       });
     }
   } catch (error) {
@@ -94,9 +92,9 @@ invCont.getNewInventoryToInvModel = async function (req, res) {
     res.render("inventory/add-inventory", {
       title: "Add New Inventory",
       messages: req.flash("notice"),
+      messageType: "danger",
       classificationList: classificationList,
       nav: await utilities.getNav(),
-      errors: null
     });
   }
 };
@@ -105,10 +103,10 @@ invCont.buildInvAddNewInventoryPage = async function (req, res,) {
   const classificationList = await utilities.buildClassificationList()
   res.render("inventory/add-inventory", {
     title: "Add New Inventory",
-    messages: req.flash("notice"),
-    nav: await utilities.getNav(),
+    messages: null,
+    messageType: null,
     classificationList: classificationList, 
-    errors: null, 
+    nav: await utilities.getNav(),
   });
 }
 
@@ -121,7 +119,6 @@ invCont.buildVehilcleManagementPage = async function (req, res, next) {
       classificationList,
       messageType: null, 
       messages: null, 
-      errors: null,
     });
   } catch (error) {
     console.error("Error building Vehicle Management page: " + error.message);
@@ -143,6 +140,8 @@ invCont.buildByClassificationId = async function (req, res, next) {
         title: "No vehicles found",
         nav,
         grid: "<p>No vehicles found for this classification.</p>",
+        messageType: null, 
+        messages: null, 
       });
     }
     const grid = await utilities.buildClassificationGrid(data);
@@ -151,6 +150,8 @@ invCont.buildByClassificationId = async function (req, res, next) {
       title: className + " vehicles",
       nav,
       grid,
+      messageType: null, 
+      messages: null, 
     });
   } catch (error) {
     console.error("Error building Classification by Id: " + error.message);
@@ -204,7 +205,8 @@ invCont.buildInvEditInventoryPage = async function (req, res, next) {
     return res.status(404).render("./inventory/edit-inventory", {
       title: "Inventory Not Found",
       nav,
-      errors: [{ msg: "Inventory item not found" }],
+      messages: [{ msg: "Inventory item not found" }],
+      messageType: "danger",
       classificationList: await utilities.buildClassificationList()
     });
   }
@@ -216,7 +218,8 @@ invCont.buildInvEditInventoryPage = async function (req, res, next) {
     title: "Edit " + itemName,
     nav,
     classificationList: await utilities.buildClassificationList(inventoryItem.classification_id),
-    errors: null,
+    messages: null,
+    messageType: null,
     inv_id: inventoryItem.inv_id,
     inv_make: inventoryItem.inv_make,
     inv_model: inventoryItem.inv_model,
@@ -267,16 +270,24 @@ invCont.updateInventory = async function (req, res, next) {
   if (updateResult) {
     const itemName = updateResult.inv_make + " " + updateResult.inv_model
     req.flash("notice", `The ${itemName} was successfully updated.`)
-    res.redirect("/inv/")
+    const classificationList = await utilities.buildClassificationList(classification_id)
+    res.render("inventory/management", {
+      title: "Vehicle Management",
+      nav,
+      classificationList,
+      messageType: "success", 
+      messages: req.flash("notice"), 
+    })
   } else {
     const classificationList = await utilities.buildClassificationList(classification_id)
     const itemName = `${inv_make} ${inv_model}`
-    req.flash("notice", "Sorry, the insert failed.")
-    res.status(501).render("inventory/edit-inventory", {
+    req.flash("notice", "Sorry, the update failed.")
+    res.render("inventory/edit-inventory", {
     title: "Edit " + itemName,
     nav,
     classificationList: classificationList,
-    errors: null,
+    messageType: "danger", 
+    messages: req.flash("notice"),
     inv_id,
     inv_make,
     inv_model,

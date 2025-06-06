@@ -1,14 +1,10 @@
 <h1><%- title %></h1>
-<% if (errors && errors.length > 0) { %>
-<ul class="notice">
-  <% errors.forEach(function(error) { %>
-  <li><%= error.msg %></li>
-  <% }) %>
-</ul>
-<% } %>
+<% if (messages && messages.length > 0) { %>
+  <div class="flash-message <%- messageType%>"> <%= messages[0] %> </div>
+  <% } %>
 
 <section class="add-inventory">
-  <form action="/inv/update" method="post" id="classification-form">
+  <form action="/inv/update" method="post" id="updateForm">
     <div class="form-group">
       <label for="inv-make">Inventory Make</label>
       <input
@@ -135,6 +131,7 @@
 <% if(locals.inv_id) { %> value="<%= locals.inv_id %>"
 <% } %>>
 
-    <button type="submit">Modify Vehicle</button>
+    <button type="submit" disabled id="updateBtn">Modify Vehicle</button>
   </form>
 </section>
+<script src="/js/inv-update.js"></script>

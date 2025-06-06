@@ -9,23 +9,21 @@ require("dotenv").config();
 * *************************************** */
 async function buildLogin(req, res, next) {
     let nav = await utilities.getNav();
-    const messages = req.flash("notice");
     res.render("account/login", {
         title: "Login",
         nav,
-        errors: null, // Always pass errors
-        messages
+        messageType: "success",
+        messages: req.flash("notice"),
     });
 }
 
 async function buildRegister(req, res, next) {
     let nav = await utilities.getNav();
-    const messages = req.flash("notice");
     res.render("account/register", {
         title: "Register",
         nav,
-        errors: null, // Always pass errors
-        messages
+        messageType: "success",
+        messages: req.flash("notice"),
     });
 }
 
@@ -36,7 +34,6 @@ async function buildIndex(req, res, next) {
     res.render("account/account-management", {
         title: "Account Management",
         nav,
-        errors: null,
         messageType,
         messages
     });
@@ -50,17 +47,8 @@ async function registerAccount(req, res) {
     const { account_firstname, account_lastname, account_email, account_password } = req.body;
 
     let hashedPassword;
-    try {
-        //regular password and cost (salt is generated automatically)
-        hashedPassword = await bcrypt.hash(account_password, 10);
-    } catch (error) {
-        req.flash("notice", "Sorry, the registration failed due to a hashing error.");
-        res.status(500).render("account/register", {
-            title: "Registration",
-            nav,
-            errors: null,
-        });
-    }
+    //regular password and cost (salt is generated automatically)
+    hashedPassword = await bcrypt.hash(account_password, 10);
 
     const regResult = await accountModel.registerAccount(
         account_firstname,
@@ -74,25 +62,19 @@ async function registerAccount(req, res) {
             "notice",
             `Congratulations, you're registered ${account_firstname}. Please log in.`
         );
-        const messageType = "success"; // Define the message type
-        const messages = req.flash("notice"); // Retrieve the message right after setting it
         res.status(201).render("account/login", {
             title: "Login",
             nav,
-            messages,
-            messageType,
-            errors: null // Always pass errors
+            messageType: "success",
+            messages: req.flash("notice"),
         });
     } else {
         req.flash("notice", "Sorry, the registration failed.");
-        const messageType = "danger"; // Define the message type
-        const messages = req.flash("notice"); // Retrieve the message right after setting it
         res.status(501).render("account/register", {
             title: "Registration",
             nav,
-            messages,
-            messageType,
-            errors: null // Always pass errors
+            messageType: "danger",
+            messages: req.flash("notice"),
         });
     }
 }
@@ -108,8 +90,9 @@ async function accountLogin(req, res) {
       req.flash("notice", "Please check your credentials and try again.")
       res.status(400).render("account/login", {
         title: "Login",
+        messageType: "danger",
+        messages: req.flash("notice"),
         nav,
-        errors: null,
         account_email,
       })
       return
@@ -123,14 +106,15 @@ async function accountLogin(req, res) {
         } else {
           res.cookie("jwt", accessToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 })
         }
-        return res.redirect("/account/")
+        return res.redirect("/account")
       }
       else {
-        req.flash("message notice", "Please check your credentials and try again.")
+        req.flash("notice", "Please check your credentials and try again.")
         res.status(400).render("account/login", {
           title: "Login",
           nav,
-          errors: null,
+          messageType: "danger",
+          messages: req.flash("notice"),
           account_email,
         })
       }
