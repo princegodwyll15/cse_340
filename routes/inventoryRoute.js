@@ -23,7 +23,7 @@ router.get("/add-classification", invController.buildInvAddNewClassificationPage
 router.get("/add-inventory", invController.buildInvAddNewInventoryPage);
 router.post(
   "/add-inventory", invValidate.addNewInventoryRules(), invValidate.checkAddNewInventoryData,
-  utilities.handleErrors(invController.getNewInventoryToInvModel)
+  invController.getNewInventoryToInvModel
 );
 
 router.get("/edit/:inv_id", invController.buildInvEditInventoryPage, utilities.handleErrors);

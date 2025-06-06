@@ -66,7 +66,6 @@ validate.checkExistingClassification = async (req, res, next) => {
 
 validate.addNewInventoryRules = () => {
     return [
-        body("inv_id").trim().notEmpty().withMessage("Inventory ID is required."),
         body("inv_make").trim().notEmpty().withMessage("Make is required."),
         body("inv_model").trim().notEmpty().withMessage("Model is required."),
         body("inv_year").trim().notEmpty().withMessage("Year is required."),
@@ -81,13 +80,13 @@ validate.addNewInventoryRules = () => {
 }
 
 validate.checkAddNewInventoryData = async (req, res, next) => {
-    const { inv_id, inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id } = req.body;
+    const { inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id } = req.body;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.render("inventory/add-inventory", {
             title: "Add New Inventory",
             nav: await utilities.getNav(),
-            inv_id,
+            classificationList: await utilities.buildClassificationList(),
             inv_make,
             inv_model,
             inv_year,
