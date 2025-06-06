@@ -70,8 +70,8 @@ app.use(function (req, res, next) {
  * Routes
  *************************/
 app.use("/account", accountRoute)
-app.use(static);
 app.use("/inv", inventoryRoute);
+app.use(static);
 // Index route
 app.get("/", utilities.handleErrors(baseController.buildHome));
 

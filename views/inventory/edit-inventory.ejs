@@ -1,0 +1,140 @@
+<h1><%- title %></h1>
+<% if (errors && errors.length > 0) { %>
+<ul class="notice">
+  <% errors.forEach(function(error) { %>
+  <li><%= error.msg %></li>
+  <% }) %>
+</ul>
+<% } %>
+
+<section class="add-inventory">
+  <form action="/inv/update" method="post" id="classification-form">
+    <div class="form-group">
+      <label for="inv-make">Inventory Make</label>
+      <input
+        type="text"
+        name="inv_make"
+        id="inv-make"
+        value="<%= inv_make %>"
+        required
+        pattern="^[a-zA-Z0-9\s\-]{2,}$"
+        title="At least 2 characters. Letters, numbers, spaces, and hyphens only."
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="inv-model">Inventory Model</label>
+      <input
+        type="text"
+        name="inv_model"
+        value="<%= inv_model %>"
+        id="inv-model"
+        required
+        pattern="^[a-zA-Z0-9\s\-]{1,}$"
+        title="Letters, numbers, spaces, and hyphens only."
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="inv-year">Inventory Year</label>
+      <input
+        type="number"
+        name="inv_year"
+        value="<%= inv_year %>"
+        id="inv-year"
+        required
+        min="1900"
+        max="2099"
+        title="Enter a valid year (1900-2099)"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="inv-description">Inventory Description</label>
+      <textarea
+        name="inv_description"
+        id="inv-description"
+        required
+        minlength="5"
+        maxlength="1000"
+        title="Description must be between 5 and 1000 characters"
+      ><%= inv_description %></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="inv-image">Inventory Image</label>
+      <input
+        type="text"
+        id="inv-image"
+        value="<%= inv_image %>"
+        required
+        name="inv_image"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="inv-thumbnail">Inventory Thumbnail</label>
+      <input
+        type="text"
+        id="inv-thumbnail"
+        value="<%= inv_thumbnail %>"
+        required
+        name="inv_thumbnail"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="inv-price">Inventory Price</label>
+      <input
+        type="number"
+        name="inv_price"
+        id="inv-price"
+        value="<%= inv_price %>"
+        required
+        min="0"
+        step="0.01"
+        title="Enter a valid price"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="inv-mileage">Inventory Mileage</label>
+      <input
+        type="number"
+        name="inv_miles"
+        value="<%= inv_miles %>"
+        id="inv-mileage"
+        required
+        min="0"
+        step="1"
+        title="Enter a valid mileage"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="inv-color">Inventory Color</label>
+      <input
+        type="text"
+        name="inv_color"
+        value="<%= inv_color %>"
+        id="inv-color"
+        required
+        pattern="^[a-zA-Z\s\-]{2,}$"
+        title="At least 2 letters. Letters, spaces, and hyphens only."
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="classification">Choose Classification</label>
+      <%- classificationSelect %>
+    </div>
+
+  <input type="hidden" name="inv_id"
+<% if(locals.inv_id) { %> value="<%= locals.inv_id %>"
+<% } %>>
+
+    <button type="submit">Modify Vehicle</button>
+  </form>
+</section>

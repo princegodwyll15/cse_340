@@ -7,9 +7,9 @@ const utilities = require("../utilities");
 const { route } = require("./static");
 
 // Route to build inventory by classification view
-router.get("/type/:classificationId", invController.buildByClassificationId);
+router.get("/type/:classification_id", invController.buildByClassificationId);
 
-router.get("/detail/:invId", invController.buildByInventoryId);
+router.get("/detail/:inv_id", invController.buildByInventoryId);
 router.post(
   "/add-classification",
   invValidate.addClassificationRules(),
@@ -22,9 +22,18 @@ router.get("/getInventory/:classification_id", utilities.handleErrors(invControl
 router.get("/add-classification", invController.buildInvAddNewClassificationPage);
 router.get("/add-inventory", invController.buildInvAddNewInventoryPage);
 router.post(
-  "/add-inventory",
+  "/add-inventory", invValidate.addNewInventoryRules(), invValidate.checkAddNewInventoryData,
   utilities.handleErrors(invController.getNewInventoryToInvModel)
 );
+
+router.get("/edit/:inv_id", invController.buildInvEditInventoryPage, utilities.handleErrors);
+router.post(
+  "/update",
+  invValidate.addUpdateInventoryRules(),
+  invValidate.checkUpdateInventoryData,
+  utilities.handleErrors(invController.updateInventory)
+);
+
 
 router.get("/", invController.buildVehilcleManagementPage);
 
