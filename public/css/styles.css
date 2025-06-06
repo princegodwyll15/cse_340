@@ -773,6 +773,77 @@ table tr:nth-child(even) {
 }
 
 /* *********************************
+Delete inventory styles go here
+********************************* */
+.delete-inventory {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.delete-inventory h1 {
+  color: #333;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+}
+
+.delete-inventory .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.delete-inventory label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.delete-inventory input[type="text"],
+.delete-inventory input[type="number"] {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.delete-inventory input[type="text"]:focus,
+.delete-inventory input[type="number"]:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.delete-inventory #deleteBtn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.delete-inventory #deleteBtn:hover {
+  background-color: #c82333;
+}
+
+.delete-inventory p {
+  color: #666;
+  margin: 1.5rem 0;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+
+/* *********************************
 Footer styles go here
 ********************************* */
 .error-container {

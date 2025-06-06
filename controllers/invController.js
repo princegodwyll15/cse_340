@@ -72,8 +72,15 @@ invCont.getNewInventoryToInvModel = async function (req, res) {
     });
 
     if (result) {
-      req.flash("notice", "Inventory item added successfully.");
-      res.redirect("/inv");
+      const invTitle = `${inv_make} ${inv_model}`;
+      req.flash("notice", `${invTitle} was successfully added to selected classification.`);
+      res.render("inventory/management", {
+        title: "Vehicle Management",
+        nav: await utilities.getNav(),
+        classificationList: await utilities.buildClassificationList(),
+        messageType: "success", 
+        messages: req.flash("notice"), 
+      })
     } else {
       req.flash("notice", "Failed to add inventory item. Please try again.");
       const classificationList = await utilities.buildClassificationList();
@@ -300,6 +307,53 @@ invCont.updateInventory = async function (req, res, next) {
     inv_color,
     classification_id
     })
+  }
+}
+
+invCont.buildDeleteInventoryPage = async function (req, res, next) {
+  const inv_id = parseInt(req.params.inv_id)
+  let nav = await utilities.getNav()
+  const itemData = await invModel.getInventoryDetailsByInvId(inv_id)
+  
+  const inventoryItem = itemData[0]; 
+  const itemName = `${inventoryItem.inv_make} ${inventoryItem.inv_model}`
+
+  res.render("./inventory/delete-confirm", {
+    title: "Delete " + itemName,
+    nav,
+    messages: null,
+    messageType: null,
+    inv_id: inventoryItem.inv_id,
+    inv_make: inventoryItem.inv_make,
+    inv_model: inventoryItem.inv_model,
+    inv_year: inventoryItem.inv_year,
+    inv_price: inventoryItem.inv_price,
+    classification_id: inventoryItem.classification_id,
+  });
+}
+
+invCont.deleteInventory = async function (req, res, next) {
+  const inv_id = parseInt(req.params.inv_id)
+  let nav = await utilities.getNav()
+  try {
+    const result = await invModel.deleteInventory(inv_id)
+    if (result) {
+      req.flash("notice", "Inventory item deleted successfully.")
+      return res.render("inventory/management", {
+        title: "Vehicle Management",
+        nav,
+        classificationList: await utilities.buildClassificationList(),
+        messageType: "success", 
+        messages: req.flash("notice"), 
+      })
+    } else {
+      req.flash("notice", "Failed to delete inventory item. Please try again.")
+      return res.redirect("/inv/delete/" + inv_id)
+    }
+  } catch (error) {
+    console.error("Error deleting inventory item: " + error.message)
+    req.flash("notice", "An error occurred while deleting the inventory item. Please try again.")
+    return res.redirect("/inv/delete/" + inv_id)
   }
 }
 

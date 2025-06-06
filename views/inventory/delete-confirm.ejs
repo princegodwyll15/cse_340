@@ -1,0 +1,68 @@
+<h1><%- title %></h1>
+<% if (messages && messages.length > 0) { %>
+  <div class="flash-message <%- messageType%>"> <%= messages[0] %> </div>
+<% } %>
+
+<section class="delete-inventory">
+  <form action="/inv/delete/<%= inv_id %> " method="post" id="deleteForm">
+    <div class="form-group">
+      <label for="inv-make">Inventory Make</label>
+      <input
+        type="text"
+        name="inv_make"
+        id="inv-make"
+        value="<%= inv_make %>"
+        required
+        pattern="^[a-zA-Z0-9\s\-]{2,}$"
+        title="At least 2 characters. Letters, numbers, spaces, and hyphens only."
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="inv-model">Inventory Model</label>
+      <input
+        type="text"
+        name="inv_model"
+        value="<%= inv_model %>"
+        id="inv-model"
+        required
+        pattern="^[a-zA-Z0-9\s\-]{1,}$"
+        title="Letters, numbers, spaces, and hyphens only."
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="inv-year">Inventory Year</label>
+      <input
+        type="number"
+        name="inv_year"
+        value="<%= inv_year %>"
+        id="inv-year"
+        required
+        min="1900"
+        max="2099"
+        title="Enter a valid year (1900-2099)"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="inv-price">Inventory Price</label>
+      <input
+        type="number"
+        name="inv_price"
+        id="inv-price"
+        value="<%= inv_price %>"
+        required
+        min="0"
+        step="0.01"
+        title="Enter a valid price"
+      />
+    </div>
+
+    <input type="hidden" name="inv_id"
+<% if(inv_id) { %> value="<%= inv_id %>"
+<% } %>>
+    <p>Do you really want to delete this vehicle? This action cannot be undone.</p>
+    <button type="submit" id="deleteBtn">Delete Vehicle</button>
+  </form>
+</section>

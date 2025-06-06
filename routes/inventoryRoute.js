@@ -5,23 +5,38 @@ const invController = require("../controllers/invController");
 const invValidate = require("../utilities/inv-validation");
 const utilities = require("../utilities");
 
-// Route to build inventory by classification view
-router.get("/type/:classification_id", invController.buildByClassificationId);
+// Route to build vehicle management page
+router.get("/", utilities.handleErrors(invController.buildVehilcleManagementPage));
 
-router.get("/detail/:inv_id", invController.buildByInventoryId);
+// Route to build inventory by classification view
+router.get("/type/:classification_id", utilities.handleErrors(invController.buildByClassificationId));
+
+// Route to build inventory by inventory id
+router.get("/detail/:inv_id", utilities.handleErrors(invController.buildByInventoryId));
+
+
+// Route to add classification
 router.post("/add-classification", invValidate.addClassificationRules(), invValidate.checkAddClassificationData, utilities.handleErrors(invController.getNewClassification));
 
+// Route to get inventory by classification id
 router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON));
 
-router.get("/add-classification", invController.buildInvAddNewClassificationPage);
-router.get("/add-inventory", invController.buildInvAddNewInventoryPage);
+// Route to add inventory
+router.get("/add-classification", utilities.handleErrors(invController.buildInvAddNewClassificationPage));
+router.get("/add-inventory", utilities.handleErrors(invController.buildInvAddNewInventoryPage));
+router.post("/add-inventory", invValidate.addNewInventoryRules(), invValidate.checkAddNewInventoryData, utilities.handleErrors(invController.getNewInventoryToInvModel));
 
-router.get("/edit/:inv_id", invController.buildInvEditInventoryPage, utilities.handleErrors);
+
+// Route to edit inventory
+router.get("/edit/:inv_id", utilities.handleErrors(invController.buildInvEditInventoryPage));
 router.post("/update", invValidate.addUpdateInventoryRules(), invValidate.checkUpdateInventoryData, utilities.handleErrors(invController.updateInventory));
 
-router.post("/add-inventory", invValidate.addNewInventoryRules(), invValidate.checkAddNewInventoryData, utilities.handleErrors(invController.getNewInventoryToInvModel));
-router.get("/", invController.buildVehilcleManagementPage);
+// Route to delete inventory
+router.post("/delete/:inv_id", utilities.handleErrors(invController.deleteInventory));
+router.get("/delete/:inv_id", utilities.handleErrors(invController.buildDeleteInventoryPage));
 
+
+// Route to cause an error for testing purposes
 router.get("/cause-error", (req, res, next) => {
   next(new Error("This is an intentional server error!"));
 });
