@@ -4,8 +4,16 @@
 <% } %>
 
 <section class="edit-account-form">
-    <h2>Update Account Information</h2>
+  <h2>Update Account Information</h2>
   <form action="/account/update/<%- accountData.account_id %>" method="post" id="edit-account-form">
+  <% if (errors) { %>
+  <ul>
+    <% errors.forEach(function(error) { %>
+      <li><%= error.msg %></li>
+    <% }); %>
+  </ul>
+  <% } %>  
+    <p>Update your account information below:</p>
     <div class="form-group">
       <label for="account_firstname">First name</label>
       <input

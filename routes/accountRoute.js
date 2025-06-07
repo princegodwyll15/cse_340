@@ -21,8 +21,9 @@ router.get("/", utilities.checkLogin, accountController.buildIndex);
 router.get("/update/:account_id", utilities.checkLogin, accountController.buildEditAccount);
 
 //route to update account
-router.post("/update/:account_id", utilities.handleErrors(accountController.updateAccount));
-router.post("/update-password/:account_id", utilities.handleErrors(accountController.updateAccountPassword));
+router.post("/update/:account_id", regValidate.updateAccountRules(), regValidate.checkUpdateAccountData, utilities.handleErrors(accountController.updateAccount));
+
+router.post("/update-password/:account_id", regValidate.updatePasswordRules(), regValidate.checkUpdatePasswordData, utilities.handleErrors(accountController.updateAccountPassword));
 
 //route to logout
 router.get("/logout", utilities.handleErrors(accountController.logout))
