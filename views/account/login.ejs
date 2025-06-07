@@ -3,7 +3,8 @@
   <form id="loginForm" class="loginForm" action="/account/login" method="post">
     <% if (messages && messages.length > 0) { %>
       <div class="flash-message <%- messageType%>"> <%= messages[0] %> </div>
-      <% } %>      
+      <% } %>    
+      <p>login to your account</p>  
     <div class="form-group">
       <label for="email">Email</label>
       <input type="email" name="account_email" id="email" required />

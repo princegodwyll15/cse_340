@@ -94,10 +94,6 @@ async function loginAccount(req, res) {
       secure: process.env.NODE_ENV === 'production',
       maxAge: 1000 * 60 * 60 // 1 hour
     });
-
-    // Set session data (optional)
-    // req.session.accountData = accountData;
-
     // Set flash message
     req.flash("notice", "Successfully logged in!");
 
