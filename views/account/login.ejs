@@ -10,17 +10,28 @@
     </div>
     <div class="form-group">
       <label for="password">Password</label>
-      <input
-        type="password"
-        name="account_password"
-        id="password"
-        pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
-        title="Password must be at least 12 characters long, contain at least one uppercase letter, one lowercase letter, one digit, and one special character."
-        minlength="12"
-        required
-      />
+      <div>
+        <input
+          type="password"
+          placeholder="Enter your password"
+          name="account_password"
+          id="account_password"
+          required
+          pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
+          title="Password must be at least 12 characters long"
+          minlength="12"
+        />
+        <span
+          id="password-toggle"
+          class="password-toggle"
+          style="margin-left: 0.5rem"
+        >
+          <i class="fa fa-eye" style="cursor: pointer"></i>
+        </span>
+      </div>
     </div>
     <button type="submit">Login</button>
     <p>Don't have an account? <a href="/account/register">Register here</a></p>
   </form>
 </section>
+<script src="/js/togglePassView.js"></script>
