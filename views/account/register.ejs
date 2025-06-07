@@ -1,9 +1,16 @@
 <h1><%- title %></h1>
 <% if (messages && messages.length > 0) { %>
-  <div class="flash-message <%- messageType%>"> <%= messages[0] %> </div>
+  <div class="flash-message"> <%= messages[0] %> </div>
   <% } %> 
+
   <section class="register-form">
-  <form action="/account/register" method="post" id="register-form">
+<% if (errors) { %>
+  <ul>
+    <% errors.forEach(function(error) { %>
+      <li><%= error.msg %></li>
+    <% }); %>
+  </ul>
+<% } %>  <form action="/account/register" method="post" id="register-form">
     <div class="form-group">
       <label for="account_firstname">First name</label>
       <input

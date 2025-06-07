@@ -22,6 +22,7 @@ async function buildRegister(req, res) {
     res.render("account/register", {
         title: "Register",
         nav,
+        errors: null,
         messageType: "danger",
         messages: req.flash("notice"),
     });
@@ -136,6 +137,7 @@ async function registerAccount(req, res) {
             title: "Login",
             nav,
             messageType: "success",
+            errors: null,
             messages: req.flash("notice"),
         });
     } else {
@@ -143,6 +145,7 @@ async function registerAccount(req, res) {
         res.status(501).render("account/register", {
             title: "Registration",
             nav,
+            errors: req.flash("notice"),
             messageType: "danger",
             messages: req.flash("notice"),
         });

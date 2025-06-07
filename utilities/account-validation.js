@@ -49,12 +49,11 @@ validate.registrationRules = () => {
  * ***************************** */
 validate.checkRegData = async (req, res, next) => {
     const { account_firstname, account_lastname, account_email } = req.body
-    let errors = []
-    errors = validationResult(req)
-    if (!errors.isEmpty()) {
+    const errors = validationResult(req)
+    if (errors.array().length > 0) {
         let nav = await utilities.getNav()
         res.render("account/register", {
-            errors,
+            errors: errors.array(),
             title: "Registration",
             nav,
             account_firstname,
@@ -66,6 +65,9 @@ validate.checkRegData = async (req, res, next) => {
     next()
 }
 
+/* ******************************
+ *  Login Data Validation Rules
+ * ***************************** */
 validate.loginRules = () => {
     return [
         // valid email is required
@@ -83,7 +85,7 @@ validate.loginRules = () => {
 }
 
 validate.checkLoginData = async (req, res, next) => {
-    const { account_email, account_password } = req.body
+    const { account_email } = req.body
     let errors = []
     errors = validationResult(req)
     if (!errors.isEmpty()) {
