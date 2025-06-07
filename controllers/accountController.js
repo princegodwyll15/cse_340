@@ -61,54 +61,55 @@ async function logout(req, res) {
  *  Process Login
  * *************************************** */
 async function loginAccount(req, res) {
-    const { account_email, account_password } = req.body;
+  const { account_email, account_password } = req.body;
 
-    try {
-        // Get user data from database
-        const accountData = await accountModel.getAccountByEmail(account_email);
+  try {
+    // Get user data from database
+    const accountData = await accountModel.getAccountByEmail(account_email);
 
-        if (!accountData) {
-            req.flash("notice", "Invalid email or password");
-            return res.redirect("/account/login");
-        }
-
-        // Verify password
-        const isValidPassword = await bcrypt.compare(account_password, accountData.account_password);
-
-        if (!isValidPassword) {
-            req.flash("notice", "Invalid email or password");
-            return res.redirect("/account/login");
-        }
-
-        // Delete sensitive data
-        delete accountData.account_password;
-
-        // Create JWT token
-        const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, {
-            expiresIn: '1h'
-        });
-
-        // Set JWT cookie
-        res.cookie('jwt', accessToken, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV_PRODUCTION,
-            maxAge: 1000 * 60 * 60 // 1 hour
-        });
-
-        // Set session data
-        req.session.accountData = accountData;
-
-        // Set flash message
-        req.flash("notice", "Successfully logged in!");
-
-        // Redirect to account page
-        return res.redirect("/account");
-    } catch (error) {
-        console.error("Login error:", error);
-        req.flash("notice", "An error occurred during login");
-        return res.redirect("/account/login");
+    if (!accountData) {
+      req.flash("notice", "Invalid email or password");
+      return res.redirect("/account/login");
     }
+
+    // Verify password
+    const isValidPassword = await bcrypt.compare(account_password, accountData.account_password);
+
+    if (!isValidPassword) {
+      req.flash("notice", "Invalid email or password");
+      return res.redirect("/account/login");
+    }
+
+    // Delete sensitive data
+    delete accountData.account_password;
+
+    // Create JWT token
+    const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, {
+      expiresIn: '1h'
+    });
+
+    // Set JWT cookie
+    res.cookie('jwt', accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 1000 * 60 * 60 // 1 hour
+    });
+
+    // Set session data (optional)
+    // req.session.accountData = accountData;
+
+    // Set flash message
+    req.flash("notice", "Successfully logged in!");
+
+    // Redirect to account page
+    return res.redirect("/account");
+  } catch (error) {
+    console.error("Login error:", error);
+    req.flash("notice", "An error occurred during login");
+    return res.redirect("/account/login");
+  }
 }
+
 
 /* ****************************************
 *  Process Registration
