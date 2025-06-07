@@ -91,7 +91,7 @@ async function loginAccount(req, res) {
         // Set JWT cookie
         res.cookie('jwt', accessToken, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
+            secure: process.env.NODE_ENV_PRODUCTION,
             maxAge: 1000 * 60 * 60 // 1 hour
         });
 
