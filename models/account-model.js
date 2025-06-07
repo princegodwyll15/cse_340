@@ -39,8 +39,42 @@ async function getAccountByEmail(account_email) {
     return new Error("No matching email found")
   }
 }
+
+async function updateAccount(accountData) {
+  try {
+    const sql = "UPDATE account SET account_firstname = $1, account_lastname = $2, account_email = $3 WHERE account_id = $4 RETURNING *"
+    const result = await pool.query(sql, [accountData.account_firstname, accountData.account_lastname, accountData.account_email, accountData.account_id])
+    if (result.rowCount === 0) {
+      throw new Error("Account not found or update failed");
+    }
+    return result.rows[0];
+  }
+  catch (error) {
+    console.error("Error updating account:", error);
+    throw new Error("Failed to update account");
+  }
+}
+
+
+async function updateAccountPassword(account_id, account_password) {
+  try {
+    const sql = "UPDATE account SET account_password = $1 WHERE account_id = $2 RETURNING *"
+    const result = await pool.query(sql, [account_password, account_id])
+    if (result.rowCount === 0) {
+      throw new Error("Account not found or password update failed");
+    }
+    return result.rows[0];
+  }
+  catch (error) {
+    console.error("Error updating account password:", error);
+    throw new Error("Failed to update account password");
+  }
+}
+
 module.exports = {
   registerAccount,
   checkExistingEmail,
-  getAccountByEmail
+  getAccountByEmail,
+  updateAccount,
+  updateAccountPassword
 };

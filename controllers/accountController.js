@@ -47,7 +47,7 @@ async function logout(req, res) {
 
         // Set flash message
         req.flash("notice", "Successfully logged out");
-        
+
         // Redirect to home page
         res.redirect("/");
     } catch (error) {
@@ -96,10 +96,10 @@ async function loginAccount(req, res) {
 
         // Set session data
         req.session.accountData = accountData;
-        
+
         // Set flash message
         req.flash("notice", "Successfully logged in!");
-        
+
         // Redirect to account page
         return res.redirect("/account");
     } catch (error) {
@@ -150,25 +150,115 @@ async function registerAccount(req, res) {
 }
 
 async function buildEditAccount(req, res) {
-  const nav = await utilities.getNav();
-  let accountData = req.cookies.jwt;
-  if (!accountData) {
-    req.flash("notice", "Please log in.");
-    return res.redirect("/account/login");
-  }
-const decoded = jwt.verify(accountData, process.env.ACCESS_TOKEN_SECRET);
-accountData = decoded;
+    const nav = await utilities.getNav();
+    let accountData = req.cookies.jwt;
+    if (!accountData) {
+        req.flash("notice", "Please log in.");
+        return res.redirect("/account/login");
+    }
+    const decoded = jwt.verify(accountData, process.env.ACCESS_TOKEN_SECRET);
+    accountData = decoded;
 
-res.render("account/edit-account", {
-    title: "Edit Account",
-    nav,
-    messageType: null,
-    messages: req.flash("notice"),
-    accountData,
-  });
+    res.render("account/edit-account", {
+        title: "Edit Account",
+        nav,
+        messageType: null,
+        messages: req.flash("notice"),
+        accountData,
+    });
 }
-    
+
+async function updateAccount(req, res) {
+    const { account_firstname, account_lastname, account_email } = req.body;
+    let accountData = req.cookies.jwt;
+
+    if (!accountData) {
+        req.flash("notice", "Please log in.");
+        return res.redirect("/account/login");
+    }
+
+    const decoded = jwt.verify(accountData, process.env.ACCESS_TOKEN_SECRET);
+    accountData = decoded;
+
+    // Update the account in the database
+    accountModel.updateAccount({
+        account_id: accountData.account_id,
+        account_firstname,
+        account_lastname,
+        account_email
+    })
+        .then((updatedAccount) => {
+            // Update the JWT token with new account data
+            const newToken = jwt.sign(updatedAccount, process.env.ACCESS_TOKEN_SECRET, {
+                expiresIn: '1h'
+            });
+
+            // Set the new JWT cookie
+            res.cookie('jwt', newToken, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                maxAge: 1000 * 60 * 60 // 1 hour
+            });
+
+            // Update session data
+            req.session.accountData = updatedAccount;
+        })
+        .then(() => {
+            req.flash("notice", "Account updated successfully.");
+            res.redirect("/account");
+        })
+        .catch((error) => {
+            console.error("Update error:", error);
+            req.flash("notice", "Error updating account.");
+            res.redirect("/account/edit");
+        });
+}
+
+async function updateAccountPassword(req, res) {
+    const { account_password, account_password_confirm } = req.body;
+    let accountData = req.cookies.jwt;
+    // Check if passwords match
+    if (account_password !== account_password_confirm) {
+        req.flash("notice", "Passwords do not match.");
+        return res.redirect("/account/edit");
+    }
+    // Check if JWT token exists
+    if (!accountData) {
+        req.flash("notice", "Please log in.");
+        return res.redirect("/account/login");
+    }
+
+    const decoded = jwt.verify(accountData, process.env.ACCESS_TOKEN_SECRET);
+    accountData = decoded;
+
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(account_password, 10);
+
+    // Update the account password in the database
+    accountModel.updateAccount({
+        account_id: accountData.account_id,
+        account_password: hashedPassword
+    })
+        .then(() => {
+            req.flash("notice", "Password updated successfully.");
+            res.redirect("/account");
+        })
+        .catch((error) => {
+            console.error("Update password error:", error);
+            req.flash("notice", "Error updating password.");
+            res.redirect("/account/edit");
+        });
+}
 
 
 
-module.exports = { buildLogin, buildRegister, registerAccount, loginAccount, buildIndex, logout, buildEditAccount }
+
+module.exports = { buildLogin, buildRegister, registerAccount, loginAccount, buildIndex, logout, buildEditAccount, updateAccount, updateAccountPassword };
+// This code is part of the account management system for a web application.
+// It handles user registration, login, account management, and password updates.
+// The code uses bcrypt for password hashing and JWT for session management.
+// It also includes error handling and session management using cookies.
+// The functions are designed to be used with an Express.js application and utilize middleware for validation and error handling.
+// The code is modular, allowing for easy integration with other parts of the application, such as inventory management and user roles.
+// The code is structured to provide a clear separation of concerns, making it easier to maintain and extend in the future.
+// The code is designed to be secure, using best practices for password storage and session management.     

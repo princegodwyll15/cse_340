@@ -20,6 +20,10 @@ router.get("/", utilities.checkLogin, accountController.buildIndex);
 //route to build edit account page
 router.get("/update/:account_id", utilities.checkLogin, accountController.buildEditAccount);
 
+//route to update account
+router.post("/update/:account_id", utilities.handleErrors(accountController.updateAccount));
+router.post("/update-password/:account_id", utilities.handleErrors(accountController.updateAccountPassword));
+
 //route to logout
 router.get("/logout", utilities.handleErrors(accountController.logout))
 
