@@ -22,7 +22,7 @@ async function buildRegister(req, res) {
     res.render("account/register", {
         title: "Register",
         nav,
-        messageType: null,
+        messageType: "danger",
         messages: req.flash("notice"),
     });
 }
@@ -210,17 +210,17 @@ async function updateAccount(req, res) {
         .catch((error) => {
             console.error("Update error:", error);
             req.flash("notice", "Error updating account.");
-            res.redirect("/account/edit");
+            res.redirect("/account/update/" + accountData.account_id);
         });
 }
 
 async function updateAccountPassword(req, res) {
-    const { account_password, account_password_confirm } = req.body;
+    const { account_id, account_password, account_password_confirmation } = req.body;
     let accountData = req.cookies.jwt;
     // Check if passwords match
-    if (account_password !== account_password_confirm) {
+    if (account_password !== account_password_confirmation) {
         req.flash("notice", "Passwords do not match.");
-        return res.redirect("/account/edit");
+        return res.redirect("/account/update/" + req.params.account_id);
     }
     // Check if JWT token exists
     if (!accountData) {
@@ -235,10 +235,7 @@ async function updateAccountPassword(req, res) {
     const hashedPassword = await bcrypt.hash(account_password, 10);
 
     // Update the account password in the database
-    accountModel.updateAccount({
-        account_id: accountData.account_id,
-        account_password: hashedPassword
-    })
+    accountModel.updateAccountPassword(account_id, hashedPassword)
         .then(() => {
             req.flash("notice", "Password updated successfully.");
             res.redirect("/account");
@@ -246,7 +243,7 @@ async function updateAccountPassword(req, res) {
         .catch((error) => {
             console.error("Update password error:", error);
             req.flash("notice", "Error updating password.");
-            res.redirect("/account/edit");
+            res.redirect("/account/update/" + accountData.account_id);
         });
 }
 

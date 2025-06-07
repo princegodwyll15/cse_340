@@ -67,14 +67,14 @@ Top header styles go here
 }
 
 .siteName a {
-  font-size: 2.5rem;
+  font-size: 1rem;
   color: #000;
   text-decoration: none;
 }
 
 #tools a {
   text-decoration: none;
-  font-size: 18px;
+  font-size: 1rem;
   color: #000;
 }
 
@@ -913,7 +913,9 @@ Account Management styles go here
 /* *********************************
 Edit Account styles go here
 ********************************* */
-.edit-account-form, .password-update-section, .updatePassword {
+.edit-account-form,
+.password-update-section,
+.updatePassword {
   max-width: 600px;
   margin: 2rem auto;
   padding: 2rem;
@@ -994,12 +996,16 @@ button[type="submit"]:hover {
   background-color: #2980b9;
 }
 
-.password-update-section h2, .updatePassword h2, .edit-account-form h2 {
+.password-update-section h2,
+.updatePassword h2,
+.edit-account-form h2 {
   color: #2c3e50;
   margin-bottom: 1.5rem;
 }
 
-.password-update-section p, .updatePassword p, .edit-account-form p {
+.password-update-section p,
+.updatePassword p,
+.edit-account-form p {
   color: #6c757d;
   margin-bottom: 1rem;
 }

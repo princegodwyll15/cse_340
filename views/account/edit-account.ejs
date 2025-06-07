@@ -42,7 +42,7 @@
       />
     </div>
     <input type="hidden" name="account_id" value="<%= accountData.account_id %>">
-    <button type="submit" class="btn-primary">Update</button>
+    <button type="submit" class="btn-primary" id="updateBtn" disabled>Update</button>
   </form>
 </section>
 
@@ -93,7 +93,10 @@
       />
     </div>
     <input type="hidden" name="account_id" value="<%= accountData.account_id %>">
-    <button type="submit">Update Password</button>
+    <button id="updatePasswordBtn" type="submit" disabled>Update Password</button>
   </form>
 </section>
+
+<script src="/js/account-update.js"></script>
+
 
