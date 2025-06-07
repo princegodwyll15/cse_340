@@ -173,6 +173,7 @@ validate.updatePasswordRules = () => {
     ]
 }
 
+
 validate.checkUpdatePasswordData = async (req, res, next) => {
     const { account_password, confirm_password } = req.body
     // Check for validation errors

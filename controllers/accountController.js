@@ -232,10 +232,10 @@ async function updateAccount(req, res) {
 }
 
 async function updateAccountPassword(req, res) {
-    const { account_id, account_password, account_password_confirmation } = req.body;
+    const { account_id, account_password, confirm_password } = req.body;
     let accountData = req.cookies.jwt;
     // Check if passwords match
-    if (account_password !== account_password_confirmation) {
+    if (account_password !== confirm_password) {
         req.flash("notice", "Passwords do not match.");
         return res.redirect("/account/update/" + req.params.account_id);
     }
