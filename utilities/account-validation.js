@@ -163,9 +163,16 @@ validate.updatePasswordRules = () => {
         body("confirm_password")
             .trim()
             .notEmpty()
-            .withMessage("Please confirm your password.")
+            .withMessage("Confirm password can not be empty.")
+            .custom((confirm_password, { req }) => {
+                if (confirm_password !== req.body.account_password) {
+                    throw new Error("Passwords do not match.")
+                }
+                return true
+            }),
     ]
 }
+
 validate.checkUpdatePasswordData = async (req, res, next) => {
     const { account_password, confirm_password } = req.body
     // Check for validation errors
