@@ -842,6 +842,185 @@ Delete inventory styles go here
   font-size: 1.1rem;
 }
 
+/* *********************************
+Account Management styles go here
+********************************* */
+.account-management {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.account-management>h1 {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.account-management h3 {
+  color: #34495e;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #3498db;
+}
+
+.account-management p {
+  color: #2c3e50;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.account-management a {
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  margin: 0.5rem 0;
+  background-color: #3498db;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.account-management a:hover {
+  background-color: #2980b9;
+}
+
+@media (max-width: 768px) {
+  .account-management {
+    margin: 1rem;
+    padding: 1rem;
+  }
+
+  .account-management>h1 {
+    font-size: 1.5rem;
+  }
+
+  .account-management>h3 {
+    font-size: 1.2rem;
+  }
+
+  .account-management a {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* *********************************
+Edit Account styles go here
+********************************* */
+.edit-account-form, .password-update-section, .updatePassword {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.edit-account-form h1 {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.edit-account-form .flash-message {
+  margin: 1rem 0;
+  padding: 1rem;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.edit-account-form .success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.edit-account-form .danger {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #34495e;
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.form-group input:invalid {
+  border-color: #dc3545;
+}
+
+button[type="submit"] {
+  width: 100%;
+  padding: 1rem;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #2980b9;
+}
+
+.password-update-section h2, .updatePassword h2, .edit-account-form h2 {
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+}
+
+.password-update-section p, .updatePassword p, .edit-account-form p {
+  color: #6c757d;
+  margin-bottom: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .edit-account-form {
+    margin: 1rem;
+    padding: 1rem;
+  }
+
+  .form-group label {
+    font-size: 0.9rem;
+  }
+
+  button[type="submit"] {
+    font-size: 0.9rem;
+    padding: 0.8rem;
+  }
+}
+
 
 /* *********************************
 Footer styles go here

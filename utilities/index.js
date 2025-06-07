@@ -134,40 +134,67 @@ Util.buildClassificationList = async function (classification_id = null) {
 
 
 /* ****************************************
-* Middleware to check token validity
-**************************************** */
+ * JWT Token Middleware
+ * ************************/
 Util.checkJWTToken = (req, res, next) => {
-  if (req.cookies.jwt) {
-   jwt.verify(
-    req.cookies.jwt,
-    process.env.ACCESS_TOKEN_SECRET,
-    function (err, accountData) {
-     if (err) {
-      req.flash("Please log in")
-      res.clearCookie("jwt")
-      return res.redirect("/account/login")
-     }
-     res.locals.accountData = accountData
-     res.locals.loggedin = 1
-     next()
-    })
-  } else {
-   next()
-  }
- }
+    const token = req.cookies.jwt;
+    
+    if (!token) {
+        res.locals.loggedin = false;
+        res.locals.accountData = null;
+        return next();
+    }
 
- /* ****************************************
+    try {
+        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+        res.locals.loggedin = true;
+        res.locals.accountData = decoded;
+        next();
+    } catch (error) {
+        console.error("JWT verification error:", error);
+        res.clearCookie('jwt');
+        res.locals.loggedin = false;
+        res.locals.accountData = null;
+        next();
+    }
+};
+
+/* ****************************************
  *  Check Login
  * ************************************ */
- Util.checkLogin = (req, res, next) => {
-  if (res.locals.loggedin) {
-    next()
-  } else {
-    req.flash("notice", "Please log in.")
-    return res.redirect("/account/login")
-  }
- }
- 
+Util.checkLogin = (req, res, next) => {
+    if (res.locals.loggedin) {
+        next()
+    } else {
+        req.flash("notice", "Please log in.")
+        return res.redirect("/account/login")
+    }
+}
+
+Util.checkRole = (req, res, next) => {
+    try {
+        // Get JWT token from cookie
+        const token = req.cookies.jwt;
+        if (!token) {
+            req.flash("notice", "Please log in.");
+            return res.redirect("/account/login");
+        }
+        // Verify token
+        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+        // Check role
+        if (decoded.account_type === "Employee" || decoded.account_type === "Admin") {
+            next();
+        } else {
+            req.flash("notice", "You do not have access to this page.");
+            return res.redirect("/account/login");
+        }
+    } catch (error) {
+        console.error("Role check error:", error);
+        req.flash("notice", "Invalid session. Please log in again.");
+        res.clearCookie('jwt');
+        return res.redirect("/account/login");
+    }
+}
 
 /* ****************************************
  * Middleware For Handling Errors

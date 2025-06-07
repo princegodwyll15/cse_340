@@ -7,36 +7,106 @@ require("dotenv").config();
 /* ****************************************
 *  Deliver login view
 * *************************************** */
-async function buildLogin(req, res, next) {
+async function buildLogin(req, res) {
     let nav = await utilities.getNav();
     res.render("account/login", {
         title: "Login",
         nav,
-        messageType: "success",
+        messageType: null,
         messages: req.flash("notice"),
     });
 }
 
-async function buildRegister(req, res, next) {
+async function buildRegister(req, res) {
     let nav = await utilities.getNav();
     res.render("account/register", {
         title: "Register",
         nav,
-        messageType: "success",
+        messageType: null,
         messages: req.flash("notice"),
     });
 }
 
-async function buildIndex(req, res, next) {
+async function buildIndex(req, res) {
     let nav = await utilities.getNav();
-    const messages = req.flash("notice");
-    const messageType = "success";
     res.render("account/account-management", {
         title: "Account Management",
         nav,
-        messageType,
-        messages
+        messageType: null,
+        messages: req.flash("notice"),
     });
+}
+
+async function logout(req, res) {
+    try {
+        // Clear JWT cookie
+        res.clearCookie('jwt', {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production'
+        });
+
+        // Set flash message
+        req.flash("notice", "Successfully logged out");
+        
+        // Redirect to home page
+        res.redirect("/");
+    } catch (error) {
+        console.error("Logout error:", error);
+        res.status(500).json({ message: "Error logging out" });
+    }
+}
+
+/* ****************************************
+ *  Process Login
+ * *************************************** */
+async function loginAccount(req, res) {
+    const { account_email, account_password } = req.body;
+
+    try {
+        // Get user data from database
+        const accountData = await accountModel.getAccountByEmail(account_email);
+
+        if (!accountData) {
+            req.flash("notice", "Invalid email or password");
+            return res.redirect("/account/login");
+        }
+
+        // Verify password
+        const isValidPassword = await bcrypt.compare(account_password, accountData.account_password);
+
+        if (!isValidPassword) {
+            req.flash("notice", "Invalid email or password");
+            return res.redirect("/account/login");
+        }
+
+        // Delete sensitive data
+        delete accountData.account_password;
+
+        // Create JWT token
+        const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, {
+            expiresIn: '1h'
+        });
+
+        // Set JWT cookie
+        res.cookie('jwt', accessToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            maxAge: 1000 * 60 * 60 // 1 hour
+        });
+
+        // Set session data
+        req.session.accountData = accountData;
+        
+        // Set flash message
+        req.flash("notice", "Successfully logged in!");
+        
+        // Redirect to account page
+        return res.redirect("/account");
+    } catch (error) {
+        console.error("Login error:", error);
+        req.flash("notice", "An error occurred during login");
+        return res.redirect("/account/login");
+    }
 }
 
 /* ****************************************
@@ -79,47 +149,26 @@ async function registerAccount(req, res) {
     }
 }
 
-/* ****************************************
- *  Process login request
- * ************************************ */
-async function accountLogin(req, res) {
-    let nav = await utilities.getNav()
-    const { account_email, account_password } = req.body
-    const accountData = await accountModel.getAccountByEmail(account_email)
-    if (!accountData) {
-      req.flash("notice", "Please check your credentials and try again.")
-      res.status(400).render("account/login", {
-        title: "Login",
-        messageType: "danger",
-        messages: req.flash("notice"),
-        nav,
-        account_email,
-      })
-      return
-    }
-    try {
-      if (await bcrypt.compare(account_password, accountData.account_password)) {
-        delete accountData.account_password
-        const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
-        if(process.env.NODE_ENV === 'development') {
-          res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
-        } else {
-          res.cookie("jwt", accessToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 })
-        }
-        return res.redirect("/account")
-      }
-      else {
-        req.flash("notice", "Please check your credentials and try again.")
-        res.status(400).render("account/login", {
-          title: "Login",
-          nav,
-          messageType: "danger",
-          messages: req.flash("notice"),
-          account_email,
-        })
-      }
-    } catch (error) {
-      throw new Error('Access Forbidden')
-    }
+async function buildEditAccount(req, res) {
+  const nav = await utilities.getNav();
+  let accountData = req.cookies.jwt;
+  if (!accountData) {
+    req.flash("notice", "Please log in.");
+    return res.redirect("/account/login");
   }
-module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildIndex }
+const decoded = jwt.verify(accountData, process.env.ACCESS_TOKEN_SECRET);
+accountData = decoded;
+
+res.render("account/edit-account", {
+    title: "Edit Account",
+    nav,
+    messageType: null,
+    messages: req.flash("notice"),
+    accountData,
+  });
+}
+    
+
+
+
+module.exports = { buildLogin, buildRegister, registerAccount, loginAccount, buildIndex, logout, buildEditAccount }

@@ -1,0 +1,99 @@
+<h1><%- title %></h1>
+<% if (messages && messages.length > 0) { %>
+  <div class="flash-message <%- messageType%>"> <%= messages[0] %> </div>
+<% } %>
+
+<section class="edit-account-form">
+    <h2>Update Account Information</h2>
+  <form action="/account/update/<%- accountData.account_id %>" method="post" id="edit-account-form">
+    <div class="form-group">
+      <label for="account_firstname">First name</label>
+      <input
+        type="text"
+        name="account_firstname"
+        id="accountFirstname"
+        required
+        value="<%= accountData.account_firstname %>"
+        class="form-control"
+      />
+    </div>
+    <div class="form-group">
+      <label for="account_lastname">Last name</label>
+      <input
+        type="text"
+        value="<%=accountData.account_lastname %>"
+        name="account_lastname"
+        id="account_lastname"
+        required
+        class="form-control"
+      />
+    </div>
+    <div class="form-group">
+      <label for="account_email">Email</label>
+      <input
+        type="email"
+        name="account_email"
+        value="<%= accountData.account_email %>"
+        id="account_email"
+        title="Please enter a valid email address"
+        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+        required
+        class="form-control"
+      />
+    </div>
+    <input type="hidden" name="account_id" value="<%= accountData.account_id %>">
+    <button type="submit" class="btn-primary">Update</button>
+  </form>
+</section>
+
+<section class="password-update-section">
+  <h2>Note:</h2>
+  <p>The above form updates your account information. The below form updates your password.</p>
+  <p>Enter your new password and confirm it to update your password.</p>
+  <p>Passwords must be at least 12 characters long, contain at least one uppercase letter, one lowercase letter, one digit, and one special character.</p>
+</section>
+
+
+<section class="updatePassword">
+  <h2>Update Password</h2>
+  <form action="/account/update-password/<%- accountData.account_id %>" method="post" id="update-password-form">
+    <div class="form-group">
+      <label for="account_password">Password</label>
+      <div>
+        <input
+          type="password"
+          placeholder="Enter your password"
+          name="account_password"
+          id="account_password"
+          required
+          pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
+          title="Password must be at least 12 characters long"
+          minlength="12"
+        />
+        <span
+          id="password-toggle"
+          class="password-toggle"
+          style="margin-left: 0.5rem"
+        >
+          <i class="fa fa-eye" style="cursor: pointer"></i>
+        </span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="account_password_confirmation">Confirm Password</label>
+      <input
+        type="password"
+        placeholder="Confirm your password"
+        name="account_password_confirmation"
+        id="account_password_confirmation"
+        required
+        pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
+        title="Password must be at least 12 characters long"
+        minlength="12"
+      />
+    </div>
+    <input type="hidden" name="account_id" value="<%= accountData.account_id %>">
+    <button type="submit">Update Password</button>
+  </form>
+</section>
+
