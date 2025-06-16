@@ -101,6 +101,10 @@ Util.buildEachVehicleFromInventoryById = async function (data) {
       eachVehicleTemplate += `<p><b>Description:</b> ${inv_vehicle.inv_description}</p>`;
       eachVehicleTemplate += `<p><b>Color:</b> ${inv_vehicle.inv_color}</p>`;
       eachVehicleTemplate += `<p><b>Miles:</b> ${new Intl.NumberFormat("en-US").format(inv_vehicle.inv_miles)}</p>`;
+      eachVehicleTemplate += `<form action="/cart/add" method="post" class="cart-form">`;
+      eachVehicleTemplate += `<input type="hidden" name="inv_id" value="${inv_vehicle.inv_id}" />`;
+      eachVehicleTemplate += `<button type="submit">Add to Cart</button>`;
+      eachVehicleTemplate += `</form>`;
       eachVehicleTemplate += "</div>";
       eachVehicleTemplate += "</li>";
     });
@@ -181,13 +185,8 @@ Util.checkRole = (req, res, next) => {
         }
         // Verify token
         const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-        // Check role
-        if (decoded.account_type === "Employee" || decoded.account_type === "Admin") {
-            next();
-        } else {
-            req.flash("notice", "You do not have access to this page.");
-            return res.redirect("/account/login");
-        }
+        // Allow all logged-in users to access cart
+        next();
     } catch (error) {
         console.error("Role check error:", error);
         req.flash("notice", "Invalid session. Please log in again.");
@@ -195,6 +194,55 @@ Util.checkRole = (req, res, next) => {
         return res.redirect("/account/login");
     }
 }
+
+/* ****************************************
+// JWT Token Middleware
+// ************************/
+Util.checkJWT = (req, res, next) => {
+    try {
+        // Get JWT token from cookie
+        const token = req.cookies.jwt;
+        if (!token) {
+            req.flash("notice", "Please log in.");
+            return res.redirect("/account/login");
+        }
+        // Verify token
+        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+        // Store decoded token in request object
+        req.decoded = decoded;
+        next();
+    } catch (error) {
+        console.error("JWT verification error:", error);
+        req.flash("notice", "Invalid session. Please log in again.");
+        res.clearCookie('jwt');
+        return res.redirect("/account/login");
+    }
+};
+
+/* ****************************************
+// Cart Middleware - Only checks JWT token
+// ************************/
+Util.checkCartAccess = (req, res, next) => {
+    try {
+        // Get JWT token from cookie
+        const token = req.cookies.jwt;
+        if (!token) {
+            req.flash("notice", "Please log in.");
+            return res.redirect("/account/login");
+        }
+        // Verify token
+        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+        // Store decoded token in request object
+        req.decoded = decoded;
+        next();
+    } catch (error) {
+        console.error("Cart access error:", error);
+        req.flash("notice", "Invalid session. Please log in again.");
+        res.clearCookie('jwt');
+        return res.redirect("/account/login");
+    }
+};
+
 
 /* ****************************************
  * Middleware For Handling Errors
