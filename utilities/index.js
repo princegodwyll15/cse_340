@@ -195,6 +195,31 @@ Util.checkRole = (req, res, next) => {
     }
 }
 
+/* ****************************************
+// JWT Token Middleware
+// ************************/
+Util.checkJWT = (req, res, next) => {
+    try {
+        // Get JWT token from cookie
+        const token = req.cookies.jwt;
+        if (!token) {
+            req.flash("notice", "Please log in.");
+            return res.redirect("/account/login");
+        }
+        // Verify token
+        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+        // Store decoded token in request object
+        req.decoded = decoded;
+        next();
+    } catch (error) {
+        console.error("JWT verification error:", error);
+        req.flash("notice", "Invalid session. Please log in again.");
+        res.clearCookie('jwt');
+        return res.redirect("/account/login");
+    }
+};
+
+
 Util.buildPurchaseSuccessPage = (data) => {
   try {
     let purchaseSuccessPage = `
@@ -213,6 +238,30 @@ Util.buildPurchaseSuccessPage = (data) => {
     return purchaseSuccessPage;
   } catch (error) {
     console.error("Error building purchase success page: " + error.message);
+    return "";
+  }
+};
+
+Util.buildPurchaseHistoryPage = (data) => {
+  try {
+    let purchaseHistoryPage = `
+      <div class="purchase-history-container">
+        <h2 class="history-heading">Your Purchase History</h2>
+        <div class="purchase-list">
+          ${data.length > 0 ? data.map((purchase) => `
+            <div class="purchase-item">
+              <p class="vehicle-name"><strong>Vehicle:</strong> ${purchase.inv_make} ${purchase.inv_model} (${purchase.inv_year})</p>
+              <p class="vehicle-price"><strong>Price:</strong> $${new Intl.NumberFormat("en-US").format(purchase.inv_price)}</p>
+              <p class="purchase-date"><strong>Purchase Date:</strong> ${purchase.purchase_date}</p>
+              <a href="/" class="return-home-link">← Back to Home</a>
+            </div>
+          `).join("") : '<p class="no-purchases">You have not made any purchases yet.</p>'}
+        </div>
+      </div>
+    `;
+    return purchaseHistoryPage;
+  } catch (error) {
+    console.error("Error building purchase history page: " + error.message);
     return "";
   }
 };

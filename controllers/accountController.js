@@ -99,27 +99,10 @@ async function loginAccount(req, res) {
         // Delete sensitive data
         delete accountData.account_password;
 
-        // Create JWT token with only necessary data
-        const tokenData = {
-            account_id: accountData.account_id,
-            account_email: accountData.account_email,
-            account_type: accountData.account_type
-        };
-
         // Create JWT token
-        const accessToken = jwt.sign(tokenData, process.env.ACCESS_TOKEN_SECRET, {
+        const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, {
             expiresIn: '1h'
         });
-
-        // Set JWT token as cookie
-        res.cookie('jwt', accessToken, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict'
-        });
-
-        // Redirect to account management page
-        res.redirect('/account');
 
         // Set JWT cookie
         res.cookie('jwt', accessToken, {
