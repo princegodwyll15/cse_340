@@ -200,3 +200,26 @@ invtory display for each car styles go here
     }
 
 }
+
+
+
+@media (max-width: 600px) {
+    .purchase-history-container {
+      padding: 20px;
+    }
+  
+    .history-heading {
+      font-size: 1.6rem;
+    }
+  
+    .purchase-item p {
+      font-size: 0.95rem;
+    }
+  
+    .return-home-link {
+      width: 100%;
+      text-align: center;
+      margin: 10px 0;
+    }
+  }
+  

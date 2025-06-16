@@ -253,10 +253,11 @@ Util.buildPurchaseHistoryPage = (data) => {
               <p class="vehicle-name"><strong>Vehicle:</strong> ${purchase.inv_make} ${purchase.inv_model} (${purchase.inv_year})</p>
               <p class="vehicle-price"><strong>Price:</strong> $${new Intl.NumberFormat("en-US").format(purchase.inv_price)}</p>
               <p class="purchase-date"><strong>Purchase Date:</strong> ${purchase.purchase_date}</p>
-              <a href="/" class="return-home-link">← Back to Home</a>
             </div>
           `).join("") : '<p class="no-purchases">You have not made any purchases yet.</p>'}
         </div>
+        <a href="/" class="return-home-link">← Back to Home</a>
+        <a href="/account" class="return-home-link">Back to Account</a>
       </div>
     `;
     return purchaseHistoryPage;
