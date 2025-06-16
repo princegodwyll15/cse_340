@@ -101,9 +101,11 @@ Util.buildEachVehicleFromInventoryById = async function (data) {
       eachVehicleTemplate += `<p><b>Description:</b> ${inv_vehicle.inv_description}</p>`;
       eachVehicleTemplate += `<p><b>Color:</b> ${inv_vehicle.inv_color}</p>`;
       eachVehicleTemplate += `<p><b>Miles:</b> ${new Intl.NumberFormat("en-US").format(inv_vehicle.inv_miles)}</p>`;
-      eachVehicleTemplate += `<form action="/cart/add" method="post" class="cart-form">`;
+      eachVehicleTemplate += `<form action="/purchase/${inv_vehicle.inv_make}/${inv_vehicle.inv_model}/${inv_vehicle.inv_id}" method="post" class="cart-form">`;
       eachVehicleTemplate += `<input type="hidden" name="inv_id" value="${inv_vehicle.inv_id}" />`;
-      eachVehicleTemplate += `<button type="submit">Add to Cart</button>`;
+      eachVehicleTemplate += `<input type="hidden" name="inv_make" value="${inv_vehicle.inv_make}" />`;
+      eachVehicleTemplate += `<input type="hidden" name="inv_model" value="${inv_vehicle.inv_model}" />`;
+      eachVehicleTemplate += `<button type="submit">Buy now</button>`;
       eachVehicleTemplate += `</form>`;
       eachVehicleTemplate += "</div>";
       eachVehicleTemplate += "</li>";
@@ -115,7 +117,6 @@ Util.buildEachVehicleFromInventoryById = async function (data) {
   }
   return eachVehicleTemplate;
 };
-
 
 Util.buildClassificationList = async function (classification_id = null) {
   let data = await invModel.getClassifications()
@@ -135,7 +136,6 @@ Util.buildClassificationList = async function (classification_id = null) {
   classificationList += "</select>"
   return classificationList
 }
-
 
 /* ****************************************
  * JWT Token Middleware
@@ -195,54 +195,27 @@ Util.checkRole = (req, res, next) => {
     }
 }
 
-/* ****************************************
-// JWT Token Middleware
-// ************************/
-Util.checkJWT = (req, res, next) => {
-    try {
-        // Get JWT token from cookie
-        const token = req.cookies.jwt;
-        if (!token) {
-            req.flash("notice", "Please log in.");
-            return res.redirect("/account/login");
-        }
-        // Verify token
-        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-        // Store decoded token in request object
-        req.decoded = decoded;
-        next();
-    } catch (error) {
-        console.error("JWT verification error:", error);
-        req.flash("notice", "Invalid session. Please log in again.");
-        res.clearCookie('jwt');
-        return res.redirect("/account/login");
-    }
+Util.buildPurchaseSuccessPage = (data) => {
+  try {
+    let purchaseSuccessPage = `
+      <div class="purchase-success-container">
+        <h2 class="success-heading">Thank you for your purchase!</h2>
+        <p class="success-message">Your purchase has been completed successfully.</p>
+        <div class="vehicle-summary">
+          <p><strong>Vehicle:</strong> ${data.inv_make} ${data.inv_model} (${data.inv_year})</p>
+          <p><strong>Price:</strong> $${new Intl.NumberFormat("en-US").format(data.inv_price)}</p>
+          <p><strong>Purchase Date:</strong> ${data.purchase_date}</p>
+        </div>
+        <p class="thank-you-note">Thank you for shopping with us!</p>
+        <a href="/" class="return-home-link">← Back to Home</a>
+      </div>
+    `;
+    return purchaseSuccessPage;
+  } catch (error) {
+    console.error("Error building purchase success page: " + error.message);
+    return "";
+  }
 };
-
-/* ****************************************
-// Cart Middleware - Only checks JWT token
-// ************************/
-Util.checkCartAccess = (req, res, next) => {
-    try {
-        // Get JWT token from cookie
-        const token = req.cookies.jwt;
-        if (!token) {
-            req.flash("notice", "Please log in.");
-            return res.redirect("/account/login");
-        }
-        // Verify token
-        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-        // Store decoded token in request object
-        req.decoded = decoded;
-        next();
-    } catch (error) {
-        console.error("Cart access error:", error);
-        req.flash("notice", "Invalid session. Please log in again.");
-        res.clearCookie('jwt');
-        return res.redirect("/account/login");
-    }
-};
-
 
 /* ****************************************
  * Middleware For Handling Errors

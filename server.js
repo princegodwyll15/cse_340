@@ -17,6 +17,7 @@ const session = require("express-session");
 const accountRoute = require("./routes/accountRoute");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
+const buyRoute = require("./routes/buyRoute");
 
 /* ***********************
  * View Engine and Templates
@@ -82,6 +83,7 @@ app.use(utilities.checkJWTToken);
  * Routes
  *************************/
 app.use("/account", accountRoute)
+app.use("/purchase", buyRoute);
 app.use("/inv", inventoryRoute);
 app.use(static);
 app.use(utilities.checkJWTToken);
